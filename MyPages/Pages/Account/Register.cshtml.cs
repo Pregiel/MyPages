@@ -16,14 +16,10 @@ namespace MyPages.Pages
 {
     public class RegisterModel : PageModel
     {
-        private readonly DataContext _context;
-        private readonly IMapper _mapper;
         private readonly IUserService _userService;
 
-        public RegisterModel(DataContext context, IMapper mapper, IUserService userService)
+        public RegisterModel(IUserService userService)
         {
-            _context = context;
-            _mapper = mapper;
             _userService = userService;
         }
 
@@ -37,12 +33,13 @@ namespace MyPages.Pages
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (await _userService.GetByUsername(UserModel.Username) != null) {
-                ModelState.AddModelError("UserModel.Username", "Username already exist.");
-            }
-
             if (!ModelState.IsValid)
             {
+                return Page();
+            }
+
+            if (await _userService.GetByUsername(UserModel.Username) != null) {
+                ModelState.AddModelError("UserModel.Username", "Username already exist.");
                 return Page();
             }
 

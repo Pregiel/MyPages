@@ -10,6 +10,7 @@ namespace MyPages.Services
 {
     public interface IUserService
     {
+        Task<User> Authenticate(string username, string password);
         Task<User> Create(string username, string password);
         Task<IEnumerable<User>> GetAll();
         Task<User> GetById(int id);
@@ -22,6 +23,22 @@ namespace MyPages.Services
     {
         public UserService() : base() { }
         public UserService(DataContext context) : base(context) { }
+
+        public async Task<User> Authenticate(string username, string password)
+        {
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+                throw new ApplicationException(Properties.resultMessages.CredentialsInvalid);
+
+            var user = await _context.Users.SingleOrDefaultAsync(x => x.Username == username);
+
+            if (user == null)
+                throw new ApplicationException(Properties.resultMessages.CredentialsInvalid);
+
+            if (!PasswordHelpers.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
+                throw new ApplicationException(Properties.resultMessages.CredentialsInvalid);
+
+            return user;
+        }
 
         public async Task<User> Create(string username, string password)
         {
