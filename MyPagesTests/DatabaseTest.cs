@@ -52,6 +52,205 @@ namespace MyPagesTests
             users = new List<User> { user101, user102, user103 };
         }
 
+        public static void CreateEntities(
+            out List<User> users,
+            out List<Folder> folders,
+            out List<Page> pages)
+        {
+            CreateEntities(out users);
+            var user101 = users.Single(x => x.Id == 101);
+
+            Folder folder101, folder101a, folder101b, folder101aa, folder101ba, folder101bb,
+                folder101bba, folder101bbb, folder101bbc;
+            Page page1011, page1012, page101a1, page101bb1, page101bb2, page101bb3,
+                page101bb4, page101bba1, page101bbb1, page101bbb2;
+
+            folder101 = new Folder
+            {
+                Id = 101,
+                Name = "User101 pages",
+                Description = "Desc",
+                User = user101,
+                Parent = null
+            };
+
+            folder101a = new Folder
+            {
+                Id = 102,
+                Name = "Folder101a",
+                Description = "DescriptionFolder101a",
+                User = user101,
+                Parent = folder101
+            };
+
+            folder101b = new Folder
+            {
+                Id = 103,
+                Name = "Folder101b",
+                Description = "DescriptionFolder101b",
+                User = user101,
+                Parent = folder101
+            };
+
+            folder101aa = new Folder
+            {
+                Id = 104,
+                Name = "Folder101aa",
+                Description = "DescriptionFolder101aa",
+                User = user101,
+                Parent = folder101b
+            };
+
+            folder101ba = new Folder
+            {
+                Id = 105,
+                Name = "Folder101ba",
+                Description = "DescriptionFolder101ba",
+                User = user101,
+                Parent = folder101b
+            };
+
+            folder101bb = new Folder
+            {
+                Id = 106,
+                Name = "Folder101bb",
+                Description = "DescriptionFolder101bb",
+                User = user101,
+                Parent = folder101b
+            };
+
+            folder101bba = new Folder
+            {
+                Id = 107,
+                Name = "Folder101bba",
+                Description = "DescriptionFolder101bba",
+                User = user101,
+                Parent = folder101bb
+            };
+
+            folder101bbb = new Folder
+            {
+                Id = 108,
+                Name = "Folder101bbb",
+                Description = "DescriptionFolder101bbb",
+                User = user101,
+                Parent = folder101bb
+            };
+
+            folder101bbc = new Folder
+            {
+                Id = 109,
+                Name = "Folder101bbc",
+                Description = "DescriptionFolder101bbc",
+                User = user101,
+                Parent = folder101bb
+            };
+
+            page1011 = new Page
+            {
+                Id = 101,
+                Name = "Page1011",
+                Content = "ContentPage1011",
+                Folder = folder101
+            };
+
+            page1012 = new Page
+            {
+                Id = 102,
+                Name = "Page1012",
+                Content = "ContentPage1012",
+                Folder = folder101
+            };
+
+            page101a1 = new Page
+            {
+                Id = 103,
+                Name = "Page101a1",
+                Content = "ContentPage101a1",
+                Folder = folder101a
+            };
+
+            page101bb1 = new Page
+            {
+                Id = 104,
+                Name = "Page101bb1",
+                Content = "ContentPage101bb1",
+                Folder = folder101bb
+            };
+
+            page101bb2 = new Page
+            {
+                Id = 105,
+                Name = "Page101bb2",
+                Content = "ContentPage101bb2",
+                Folder = folder101bb
+            };
+
+            page101bb3 = new Page
+            {
+                Id = 106,
+                Name = "Page101bb3",
+                Content = "ContentPage101bb3",
+                Folder = folder101bb
+            };
+
+            page101bb4 = new Page
+            {
+                Id = 107,
+                Name = "Page101bb4",
+                Content = "ContentPage101bb4",
+                Folder = folder101bb
+            };
+
+            page101bba1 = new Page
+            {
+                Id = 108,
+                Name = "Page101bba1",
+                Content = "ContentPage101bba1",
+                Folder = folder101bba
+            };
+
+            page101bbb1 = new Page
+            {
+                Id = 109,
+                Name = "Page101bbb1",
+                Content = "ContentPage101bbb1",
+                Folder = folder101bbb
+            };
+
+            page101bbb2 = new Page
+            {
+                Id = 110,
+                Name = "Page101bbb2",
+                Content = "ContentPage101bbb2",
+                Folder = folder101bbb
+            };
+
+            folder101.Childs = new List<Folder> { folder101a, folder101b };
+            folder101.Pages = new List<Page> { page1011, page1012 };
+            folder101a.Childs = new List<Folder> { folder101aa };
+            folder101a.Pages = new List<Page> { page101a1 };
+            folder101b.Childs = new List<Folder> { folder101ba, folder101bb };
+            folder101b.Pages = new List<Page> { };
+            folder101bb.Childs = new List<Folder> { folder101bba, folder101bbb, folder101bbc };
+            folder101bb.Pages = new List<Page> { page101bb1, page101bb2, page101bb3, page101bb4 };
+            folder101bba.Childs = new List<Folder> { };
+            folder101bba.Pages = new List<Page> { page101bba1 };
+            folder101bbb.Childs = new List<Folder> { };
+            folder101bbb.Pages = new List<Page> { page101bbb1, page101bbb2 };
+            folder101bbc.Childs = new List<Folder> { };
+            folder101bbc.Pages = new List<Page> { };
+
+            user101.Folder = folder101;
+
+            folders = new List<Folder> { folder101, folder101a, folder101b, folder101aa, folder101ba,
+                folder101bb, folder101bba, folder101bbb, folder101bbc
+            };
+            pages = new List<Page> { page1011, page1012, page101a1, page101bb1, page101bb2, page101bb3,
+                page101bb4, page101bba1, page101bbb1, page101bbb2
+            };
+        }
+
         protected Mock<DataContext> CreateDataContext<U>(List<U> objects) where U : class
         {
             var mockUserRoomsSet = CreateDbSetMock(objects);
@@ -77,12 +276,18 @@ namespace MyPagesTests
         }
 
         protected Mock<DataContext> CreateDataContext(
-            List<User> users)
+            List<User> users,
+            List<Folder> folder,
+            List<Page> pages)
         {
             var mockUsersSet = CreateDbSetMock(users);
+            var mockFoldersSet = CreateDbSetMock(folder);
+            var mockPagesSet = CreateDbSetMock(pages);
 
             var dataContextMock = new Mock<DataContext>();
             dataContextMock.Setup(x => x.Users).Returns(mockUsersSet.Object);
+            dataContextMock.Setup(x => x.Folders).Returns(mockFoldersSet.Object);
+            dataContextMock.Setup(x => x.Pages).Returns(mockPagesSet.Object);
 
             return dataContextMock;
         }

@@ -81,7 +81,8 @@ namespace MyPagesTests.Services
         public async Task Create_ValidObjectPassed_ReturnsUser()
         {
             CreateEntities(out List<User> users);
-            var userService = CreateService(users);
+            var dataContext = CreateDataContext(users);
+            var userService = CreateService(dataContext);
             string username = "User201";
             string password = "User201Password";
 
@@ -90,6 +91,7 @@ namespace MyPagesTests.Services
             Assert.IsType<User>(result);
             Assert.NotNull(result.PasswordHash);
             Assert.NotNull(result.PasswordSalt);
+            dataContext.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Exactly(1));
         }
 
         [Fact]

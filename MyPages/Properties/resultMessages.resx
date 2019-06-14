@@ -144,4 +144,10 @@
   <data name="UserNotFound" xml:space="preserve">
     <value>user.notFound</value>
   </data>
+  <data name="NameNull" xml:space="preserve">
+    <value>name.null</value>
+  </data>
+  <data name="UserNull" xml:space="preserve">
+    <value>user.null</value>
+  </data>
 </root>

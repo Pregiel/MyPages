@@ -42,6 +42,7 @@ namespace MyPages.Pages
                 ModelState.AddModelError("UserModel.Username", "Username already exist.");
                 return Page();
             }
+
             try
             {
                 await _userService.Create(UserModel.Username, UserModel.Password);

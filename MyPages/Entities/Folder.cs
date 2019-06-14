@@ -46,7 +46,8 @@ namespace MyPages.Entities
             set
             {
                 _parent = value;
-                ParentId = value.Id;
+                if (value != null)
+                    ParentId = value.Id;
             }
         }
         public virtual ICollection<Folder> Childs { get; set; }

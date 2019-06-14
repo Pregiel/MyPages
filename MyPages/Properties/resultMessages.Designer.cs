@@ -70,6 +70,15 @@ namespace MyPages.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to name.null.
+        /// </summary>
+        public static string NameNull {
+            get {
+                return ResourceManager.GetString("NameNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to newPassword.length.
         /// </summary>
         public static string NewPasswordLength {
@@ -138,6 +147,15 @@ namespace MyPages.Properties {
         public static string UserNotFound {
             get {
                 return ResourceManager.GetString("UserNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to user.null.
+        /// </summary>
+        public static string UserNull {
+            get {
+                return ResourceManager.GetString("UserNull", resourceCulture);
             }
         }
     }

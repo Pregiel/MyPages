@@ -55,6 +55,7 @@ namespace MyPages.Services
 
             var user = new User
             {
+                Id = 0,
                 Username = username,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt
