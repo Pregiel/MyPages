@@ -47,12 +47,14 @@ namespace MyPages
             if (CurrentEnvironment.IsEnvironment("Testing"))
                 services.AddDbContext<DataContext>(x => x.UseInMemoryDatabase("TestingDB"));
             else
-                services.AddDbContext<DataContext>(x => x.UseSqlServer(appSettings.Database));
+                services.AddDbContext<DataContext>(x => x.UseMySql(appSettings.Database));
 
             services.AddMvc()
                 .AddRazorPagesOptions(options =>
                 {
                     options.Conventions.AuthorizePage("/Privacy");
+                    options.Conventions.AuthorizeFolder("/Page");
+                    options.Conventions.AddPageRoute("/Page/Main", "/Page");
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 

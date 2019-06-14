@@ -24,11 +24,8 @@ namespace MyPages.Pages.Account
             _userService = userService;
         }
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public void OnGetAsync(string returnUrl = null)
         {
-            // Clear the existing external cookie
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
             ReturnUrl = returnUrl;
         }
 
@@ -37,7 +34,7 @@ namespace MyPages.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            if (!ModelState.IsValid)
+            if (User.Identity.IsAuthenticated || !ModelState.IsValid)
             {
                 return Page();
             }
