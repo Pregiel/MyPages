@@ -20,21 +20,6 @@ namespace MyPages.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime DataModified { get; set; }
 
-        public int UserId { get; set; }
-        private User _userId { get; set; }
-        public virtual User User
-        {
-            get
-            {
-                return _userId;
-            }
-            set
-            {
-                _userId = value;
-                UserId = value.Id;
-            }
-        }
-
         public int? ParentId { get; set; }
         private Folder _parent { get; set; }
         public virtual Folder Parent

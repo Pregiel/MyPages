@@ -70,7 +70,6 @@ namespace MyPagesTests
                 Id = 101,
                 Name = "User101 pages",
                 Description = "Desc",
-                User = user101,
                 Parent = null
             };
 
@@ -79,7 +78,6 @@ namespace MyPagesTests
                 Id = 102,
                 Name = "Folder101a",
                 Description = "DescriptionFolder101a",
-                User = user101,
                 Parent = folder101
             };
 
@@ -88,7 +86,6 @@ namespace MyPagesTests
                 Id = 103,
                 Name = "Folder101b",
                 Description = "DescriptionFolder101b",
-                User = user101,
                 Parent = folder101
             };
 
@@ -97,7 +94,6 @@ namespace MyPagesTests
                 Id = 104,
                 Name = "Folder101aa",
                 Description = "DescriptionFolder101aa",
-                User = user101,
                 Parent = folder101b
             };
 
@@ -106,7 +102,6 @@ namespace MyPagesTests
                 Id = 105,
                 Name = "Folder101ba",
                 Description = "DescriptionFolder101ba",
-                User = user101,
                 Parent = folder101b
             };
 
@@ -115,7 +110,6 @@ namespace MyPagesTests
                 Id = 106,
                 Name = "Folder101bb",
                 Description = "DescriptionFolder101bb",
-                User = user101,
                 Parent = folder101b
             };
 
@@ -124,7 +118,6 @@ namespace MyPagesTests
                 Id = 107,
                 Name = "Folder101bba",
                 Description = "DescriptionFolder101bba",
-                User = user101,
                 Parent = folder101bb
             };
 
@@ -133,7 +126,6 @@ namespace MyPagesTests
                 Id = 108,
                 Name = "Folder101bbb",
                 Description = "DescriptionFolder101bbb",
-                User = user101,
                 Parent = folder101bb
             };
 
@@ -142,7 +134,6 @@ namespace MyPagesTests
                 Id = 109,
                 Name = "Folder101bbc",
                 Description = "DescriptionFolder101bbc",
-                User = user101,
                 Parent = folder101bb
             };
 

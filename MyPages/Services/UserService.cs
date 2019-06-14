@@ -53,12 +53,17 @@ namespace MyPages.Services
 
             PasswordHelpers.CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
 
+            var folder = new Folder
+            {
+                Name = username + " pages"
+            };
+
             var user = new User
             {
-                Id = 0,
                 Username = username,
                 PasswordHash = passwordHash,
-                PasswordSalt = passwordSalt
+                PasswordSalt = passwordSalt,
+                Folder = folder
             };
 
             await _context.Users.AddAsync(user);

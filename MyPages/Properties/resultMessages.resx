@@ -150,4 +150,7 @@
   <data name="UserNull" xml:space="preserve">
     <value>user.null</value>
   </data>
+  <data name="FolderNull" xml:space="preserve">
+    <value>folder.null</value>
+  </data>
 </root>

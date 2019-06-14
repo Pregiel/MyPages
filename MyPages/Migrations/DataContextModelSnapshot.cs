@@ -37,14 +37,9 @@ namespace MyPages.Migrations
 
                     b.Property<int?>("ParentId");
 
-                    b.Property<int>("UserId");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ParentId");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
 
                     b.ToTable("Folders");
                 });
@@ -92,6 +87,9 @@ namespace MyPages.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FolderId")
+                        .IsUnique();
+
                     b.HasIndex("Username")
                         .IsUnique();
 
@@ -103,11 +101,6 @@ namespace MyPages.Migrations
                     b.HasOne("MyPages.Entities.Folder", "Parent")
                         .WithMany("Childs")
                         .HasForeignKey("ParentId");
-
-                    b.HasOne("MyPages.Entities.User", "User")
-                        .WithOne("Folder")
-                        .HasForeignKey("MyPages.Entities.Folder", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("MyPages.Entities.Page", b =>
@@ -115,6 +108,14 @@ namespace MyPages.Migrations
                     b.HasOne("MyPages.Entities.Folder", "Folder")
                         .WithMany("Pages")
                         .HasForeignKey("FolderId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MyPages.Entities.User", b =>
+                {
+                    b.HasOne("MyPages.Entities.Folder", "Folder")
+                        .WithOne()
+                        .HasForeignKey("MyPages.Entities.User", "FolderId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

@@ -10,23 +10,23 @@ using Xunit;
 
 namespace MyPagesTests.Services
 {
-    public class FolderServiceTests : ServiceTests<FolderService, Folder>
+    public class PageServiceTests : ServiceTests<PageService, Page>
     {
         [Fact]
         public async Task Create_ValidObject_SaveChangesInvoked()
         {
             CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);
             var dataContext = CreateDataContext(users, folders, pages);
-            var folderService = CreateService(dataContext);
+            var pageService = CreateService(dataContext);
             var user = users.Single(x => x.Id == 101);
-            var folder = new Folder
+            var page = new Page
             {
-                Name = "Folder201",
-                Description = "Desc",
-                Parent = user.Folder
+                Name = "Page201",
+                Content = "Content",
+                Folder = user.Folder
             };
 
-            await folderService.Create(folder);
+            await pageService.Create(page);
 
             dataContext.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Exactly(1));
         }
@@ -38,52 +38,52 @@ namespace MyPagesTests.Services
         public async Task Create_NullOrWhiteSpacesName_ThrowsNameNullError(string name)
         {
             CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);
-            var folderService = CreateService(users, folders, pages);
+            var pageService = CreateService(users, folders, pages);
             var user = users.Single(x => x.Id == 101);
-            var folder = new Folder
+            var page = new Page
             {
                 Name = name,
-                Description = "Desc",
-                Parent = user.Folder
+                Content = "Content",
+                Folder = user.Folder
             };
 
             var exception = await Assert.ThrowsAsync<ApplicationException>(
-                () => folderService.Create(folder));
+                () => pageService.Create(page));
 
             Assert.Equal(MyPages.Properties.resultMessages.NameNull, exception.Message);
         }
 
         [Fact]
-        public async Task GetAll_ValidUsers_ReturnsFolders()
+        public async Task GetAll_ValidUsers_ReturnsPages()
         {
             CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);
-            var folderService = CreateService(users, folders, pages);
+            var pageService = CreateService(users, folders, pages);
 
-            var result = await folderService.GetAll();
+            var result = await pageService.GetAll();
 
-            Assert.Equal(folders.Count, result.Count());
+            Assert.Equal(pages.Count, result.Count());
         }
 
         [Fact]
-        public async Task GetById_ValidId_ReturnFolder()
+        public async Task GetById_ValidId_ReturnPage()
         {
             CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);
-            var folderService = CreateService(users, folders, pages);
+            var pageService = CreateService(users, folders, pages);
             int id = 103;
 
-            var result = await folderService.GetById(id);
+            var result = await pageService.GetById(id);
 
-            Assert.Equal("Folder101b", result.Name);
+            Assert.Equal("Page101a1", result.Name);
         }
 
         [Fact]
         public async Task GetById_InvalidId_ReturnNull()
         {
             CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);
-            var folderService = CreateService(users, folders, pages);
+            var pageService = CreateService(users, folders, pages);
             int id = 999;
 
-            var result = await folderService.GetById(id);
+            var result = await pageService.GetById(id);
 
             Assert.Null(result);
         }
@@ -93,10 +93,10 @@ namespace MyPagesTests.Services
         {
             CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);
             var dataContext = CreateDataContext(users, folders, pages);
-            var folderService = CreateService(dataContext);
+            var pageService = CreateService(dataContext);
             int id = 109;
 
-            await folderService.Delete(id);
+            await pageService.Delete(id);
 
             dataContext.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Exactly(1));
         }
@@ -106,10 +106,10 @@ namespace MyPagesTests.Services
         {
             CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);
             var dataContext = CreateDataContext(users, folders, pages);
-            var folderService = CreateService(dataContext);
+            var pageService = CreateService(dataContext);
             int id = 999;
 
-            await folderService.Delete(id);
+            await pageService.Delete(id);
 
             dataContext.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Exactly(0));
         }

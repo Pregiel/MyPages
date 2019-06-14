@@ -28,14 +28,17 @@ namespace MyPages.Helpers
                     entity.HasKey(u => u.Id);
                     entity.Property(u => u.Username).IsRequired();
                     entity.HasIndex(u => u.Username).IsUnique();
+                    entity.HasOne(u => u.Folder)
+                    .WithOne()
+                    .HasForeignKey<User>(u => u.FolderId);
                 })
                 .Entity<Folder>(entity =>
                 {
                     entity.HasKey(f => f.Id);
                     entity.Property(f => f.Name).IsRequired();
-                    entity.HasOne(f => f.User)
-                        .WithOne(u => u.Folder)
-                        .HasForeignKey<Folder>(u => u.UserId);
+                    //entity.HasOne(f => f.User)
+                    //    .WithOne(u => u.Folder)
+                    //    .HasForeignKey<Folder>(u => u.UserId);
                     entity.HasOne(f => f.Parent)
                         .WithMany(fp => fp.Childs)
                         .HasForeignKey(f => f.ParentId);

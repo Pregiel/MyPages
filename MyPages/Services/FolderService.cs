@@ -26,15 +26,8 @@ namespace MyPages.Services
             if (string.IsNullOrWhiteSpace(folder.Name))
                 throw new ApplicationException(Properties.resultMessages.NameNull);
 
-            if (folder.User == null)
-                throw new ApplicationException(Properties.resultMessages.UserNull);
-
-            if (_context.Users.SingleOrDefault(x => x.Id == folder.User.Id) == null)
-                throw new ApplicationException(Properties.resultMessages.UserNull);
-
             folder.Pages = null;
             folder.Childs = null;
-            folder.UserId = folder.User.Id;
 
             await _context.Folders.AddAsync(folder);
             await _context.SaveChangesAsync();

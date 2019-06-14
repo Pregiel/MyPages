@@ -70,6 +70,15 @@ namespace MyPages.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to folder.null.
+        /// </summary>
+        public static string FolderNull {
+            get {
+                return ResourceManager.GetString("FolderNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to name.null.
         /// </summary>
         public static string NameNull {

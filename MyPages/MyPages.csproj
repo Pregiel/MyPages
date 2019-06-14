@@ -10,6 +10,8 @@
     <Compile Remove="Migrations\20190613095012_Initial.Designer.cs" />
     <Compile Remove="Migrations\20190614114415_AddedFolderAndPage.cs" />
     <Compile Remove="Migrations\20190614114415_AddedFolderAndPage.Designer.cs" />
+    <Compile Remove="Migrations\20190614121211_Initial.cs" />
+    <Compile Remove="Migrations\20190614121211_Initial.Designer.cs" />
   </ItemGroup>
 
 
