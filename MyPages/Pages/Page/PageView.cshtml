@@ -1,0 +1,37 @@
+﻿@page "{id:int?}"
+@model MyPages.Pages.Page.PageViewModel
+@{
+    ViewData["Title"] = "PageView";
+}
+
+@if (Model.Folder == null)
+{
+    <h1>Unauthorized entry</h1>
+    <hr />
+}
+else
+{
+    <ul class="nav reverse path">
+        @foreach (var folder in Model.FoldersPath)
+        {
+            <li class="nav-item">
+                <a class="nav-link" asp-page="/Page/Folder" asp-route-id="@folder.Id">@folder.Name</a>
+            </li>
+        }
+        <li class="nav-item">
+            <a class="nav-link" asp-page="/Page/Page" asp-route-id="@Model.PageEntity.Id">@Model.PageEntity.Name</a>
+        </li>
+    </ul>
+    <hr />
+    <div id="content"></div>
+
+
+
+    @section Scripts {
+        <script type="text/javascript">
+        $(() => {
+            $('#content').append(mdToHtml('@Model.PageEntity.Content'));
+        });
+        </script>
+    }
+}

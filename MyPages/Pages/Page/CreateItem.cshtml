@@ -1,0 +1,62 @@
+﻿@page "{id:int?}"
+@model MyPages.Pages.Page.CreateItemModel
+@{
+    ViewData["Title"] = "Create page/folder";
+}
+@if (Model.Folder == null)
+{
+    <h1>Unauthorized entry</h1>
+    <hr />
+}
+else
+{
+    <h1>Create page/folder</h1>
+    <hr />
+
+
+
+    <div class="row">
+        <div class="col-lg-10">
+            <form method="post">
+                <div class="btn-group btn-group-toggle mb-3" data-toggle="buttons">
+                    <label class="btn btn-outline-primary active">
+                        <input asp-for="ItemModel.ItemType" type="radio" value="Folder" checked> Folder
+                    </label>
+                    <label class="btn btn-outline-primary">
+                        <input asp-for="ItemModel.ItemType" type="radio" value="Page"> Page
+                    </label>
+                </div>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="ItemModel.Name" class="control-label"></label>
+                    <input asp-for="ItemModel.Name" class="form-control" />
+                    <span asp-validation-for="ItemModel.Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ItemModel.Content" class="control-label"></label>
+                    <textarea asp-for="ItemModel.Content" class="form-control" rows="15"></textarea>
+                    <span asp-validation-for="ItemModel.Content" class="text-danger"></span>
+                </div>
+
+                <div id="content-preview"></div>
+
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        <script type="text/javascript">
+            $('#ItemModel_Content').change(() => {
+                var converter = new showdown.Converter,
+                    text = $('#ItemModel_Content').val(),
+                    html = converter.makeHtml(text);
+                $('#content-preview').empty().append(html);
+            });
+        </script>
+    }
+}

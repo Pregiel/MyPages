@@ -65,6 +65,31 @@ namespace MyPagesTests.Services
         }
 
         [Fact]
+        public async Task GetPagesFromFolder_ValidId_ReturnsPages()
+        {
+            CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);
+            var pageService = CreateService(users, folders, pages);
+            var id = 101;
+            var folder = folders.Single(x => x.Id == id);
+
+            var result = await pageService.GetPagesFromFolder(id);
+
+            Assert.Equal(folder.Pages, result);
+        }
+
+        [Fact]
+        public async Task GetPagesFromFolder_InvalidId_ReturnsEmptyList()
+        {
+            CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);
+            var pageService = CreateService(users, folders, pages);
+            var id = 999;
+
+            var result = await pageService.GetPagesFromFolder(id);
+
+            Assert.Empty(result);
+        }
+
+        [Fact]
         public async Task GetById_ValidId_ReturnPage()
         {
             CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);

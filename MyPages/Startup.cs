@@ -54,7 +54,9 @@ namespace MyPages
                 {
                     options.Conventions.AuthorizePage("/Privacy");
                     options.Conventions.AuthorizeFolder("/Page");
-                    options.Conventions.AddPageRoute("/Page/Main", "/Page");
+                    options.Conventions.AddPageRoute("/Page/Folder", "/Folder/{id:int?}");
+                    options.Conventions.AddPageRoute("/Page/CreateItem", "/Folder/{id:int?}/Create/");
+                    options.Conventions.AddPageRoute("/Page/PageView", "/Page/{id:int?}");
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
@@ -65,6 +67,8 @@ namespace MyPages
                 .AddCookie();
 
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IFolderService, FolderService>();
+            services.AddScoped<IPageService, PageService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

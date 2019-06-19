@@ -59,9 +59,13 @@ namespace MyPagesTests
         {
             CreateEntities(out users);
             var user101 = users.Single(x => x.Id == 101);
+            var user102 = users.Single(x => x.Id == 102);
+            var user103 = users.Single(x => x.Id == 103);
 
             Folder folder101, folder101a, folder101b, folder101aa, folder101ba, folder101bb,
-                folder101bba, folder101bbb, folder101bbc;
+                folder101bba, folder101bbb, folder101bbc,
+                folder102,
+                folder103;
             Page page1011, page1012, page101a1, page101bb1, page101bb2, page101bb3,
                 page101bb4, page101bba1, page101bbb1, page101bbb2;
 
@@ -69,7 +73,7 @@ namespace MyPagesTests
             {
                 Id = 101,
                 Name = "User101 pages",
-                Description = "Desc",
+                Content = "Desc",
                 Parent = null
             };
 
@@ -77,7 +81,7 @@ namespace MyPagesTests
             {
                 Id = 102,
                 Name = "Folder101a",
-                Description = "DescriptionFolder101a",
+                Content = "DescriptionFolder101a",
                 Parent = folder101
             };
 
@@ -85,7 +89,7 @@ namespace MyPagesTests
             {
                 Id = 103,
                 Name = "Folder101b",
-                Description = "DescriptionFolder101b",
+                Content = "DescriptionFolder101b",
                 Parent = folder101
             };
 
@@ -93,7 +97,7 @@ namespace MyPagesTests
             {
                 Id = 104,
                 Name = "Folder101aa",
-                Description = "DescriptionFolder101aa",
+                Content = "DescriptionFolder101aa",
                 Parent = folder101b
             };
 
@@ -101,7 +105,7 @@ namespace MyPagesTests
             {
                 Id = 105,
                 Name = "Folder101ba",
-                Description = "DescriptionFolder101ba",
+                Content = "DescriptionFolder101ba",
                 Parent = folder101b
             };
 
@@ -109,7 +113,7 @@ namespace MyPagesTests
             {
                 Id = 106,
                 Name = "Folder101bb",
-                Description = "DescriptionFolder101bb",
+                Content = "DescriptionFolder101bb",
                 Parent = folder101b
             };
 
@@ -117,7 +121,7 @@ namespace MyPagesTests
             {
                 Id = 107,
                 Name = "Folder101bba",
-                Description = "DescriptionFolder101bba",
+                Content = "DescriptionFolder101bba",
                 Parent = folder101bb
             };
 
@@ -125,7 +129,7 @@ namespace MyPagesTests
             {
                 Id = 108,
                 Name = "Folder101bbb",
-                Description = "DescriptionFolder101bbb",
+                Content = "DescriptionFolder101bbb",
                 Parent = folder101bb
             };
 
@@ -133,8 +137,24 @@ namespace MyPagesTests
             {
                 Id = 109,
                 Name = "Folder101bbc",
-                Description = "DescriptionFolder101bbc",
+                Content = "DescriptionFolder101bbc",
                 Parent = folder101bb
+            };
+
+            folder102 = new Folder
+            {
+                Id = 110,
+                Name = "User102 pages",
+                Content = "Desc",
+                Parent = null
+            };
+
+            folder103 = new Folder
+            {
+                Id = 111,
+                Name = "User103 pages",
+                Content = "Desc",
+                Parent = null
             };
 
             page1011 = new Page
@@ -231,11 +251,19 @@ namespace MyPagesTests
             folder101bbb.Pages = new List<Page> { page101bbb1, page101bbb2 };
             folder101bbc.Childs = new List<Folder> { };
             folder101bbc.Pages = new List<Page> { };
+            folder102.Childs = new List<Folder> { };
+            folder102.Pages = new List<Page> { };
+            folder102.Childs = new List<Folder> { };
+            folder102.Pages = new List<Page> { };
 
             user101.Folder = folder101;
+            user102.Folder = folder102;
+            user103.Folder = folder103;
 
             folders = new List<Folder> { folder101, folder101a, folder101b, folder101aa, folder101ba,
-                folder101bb, folder101bba, folder101bbb, folder101bbc
+                folder101bb, folder101bba, folder101bbb, folder101bbc,
+                folder102,
+                folder103
             };
             pages = new List<Page> { page1011, page1012, page101a1, page101bb1, page101bb2, page101bb3,
                 page101bb4, page101bba1, page101bbb1, page101bbb2

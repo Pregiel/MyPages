@@ -12,6 +12,7 @@ namespace MyPages.Services
     {
         Task<Page> Create(Page page);
         Task<IEnumerable<Page>> GetAll();
+        Task<IEnumerable<Page>> GetPagesFromFolder(int folderId);
         Task<Page> GetById(int id);
         Task Delete(int id);
     }
@@ -29,7 +30,7 @@ namespace MyPages.Services
             if (page.Folder == null)
                 throw new ApplicationException(Properties.resultMessages.FolderNull);
 
-            if (_context.Users.SingleOrDefault(x => x.Id == page.Folder.Id) == null)
+            if (_context.Folders.SingleOrDefault(x => x.Id == page.Folder.Id) == null)
                 throw new ApplicationException(Properties.resultMessages.FolderNull);
 
             page.FolderId = page.Folder.Id;
@@ -45,9 +46,17 @@ namespace MyPages.Services
             return await _context.Pages.ToListAsync();
         }
 
+        public async Task<IEnumerable<Page>> GetPagesFromFolder(int folderId)
+        {
+            return await _context.Pages.Where(x => x.FolderId == folderId).ToListAsync();
+        }
+
         public async Task<Page> GetById(int id)
         {
-            return await _context.Pages.SingleOrDefaultAsync(x => x.Id == id);
+            return await _context
+                .Pages
+                .Include(x => x.Folder)
+                .SingleOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task Delete(int id)

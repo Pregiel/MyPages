@@ -84,7 +84,10 @@ namespace MyPages.Services
 
         public async Task<User> GetByUsername(string username)
         {
-            return await _context.Users.SingleOrDefaultAsync(x => x.Username == username);
+            return await _context
+                .Users
+                .Include(x => x.Folder)
+                .SingleOrDefaultAsync(x => x.Username == username);
         }
 
         public async Task Update(User userParam, string password = null)

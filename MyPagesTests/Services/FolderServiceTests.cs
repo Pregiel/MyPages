@@ -13,6 +13,58 @@ namespace MyPagesTests.Services
     public class FolderServiceTests : ServiceTests<FolderService, Folder>
     {
         [Fact]
+        public void CheckAccess_ValidObjects_ReturnTrue()
+        {
+            CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);
+            var folderService = CreateService(users, folders, pages);
+            var user = users.Single(x => x.Id == 101);
+            var folder = folders.Single(x => x.Id == 101);
+
+            var result = folderService.CheckAccess(folder, user);
+
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void CheckAccess_InvalidObjects_ReturnFalse()
+        {
+            CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);
+            var folderService = CreateService(users, folders, pages);
+            var user = users.Single(x => x.Id == 102);
+            var folder = folders.Single(x => x.Id == 101);
+
+            var result = folderService.CheckAccess(folder, user);
+
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void CheckAccess_UserNull_ReturnFalse()
+        {
+            CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);
+            var folderService = CreateService(users, folders, pages);
+            User user = null;
+            var folder = folders.Single(x => x.Id == 101);
+
+            var result = folderService.CheckAccess(folder, user);
+
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void CheckAccess_FolderNull_ReturnFalse()
+        {
+            CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);
+            var folderService = CreateService(users, folders, pages);
+            var user = users.Single(x => x.Id == 101);
+            Folder folder = null;
+
+            var result = folderService.CheckAccess(folder, user);
+
+            Assert.False(result);
+        }
+
+        [Fact]
         public async Task Create_ValidObject_SaveChangesInvoked()
         {
             CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);
@@ -22,7 +74,7 @@ namespace MyPagesTests.Services
             var folder = new Folder
             {
                 Name = "Folder201",
-                Description = "Desc",
+                Content = "Desc",
                 Parent = user.Folder
             };
 
@@ -43,7 +95,7 @@ namespace MyPagesTests.Services
             var folder = new Folder
             {
                 Name = name,
-                Description = "Desc",
+                Content = "Desc",
                 Parent = user.Folder
             };
 
@@ -54,7 +106,7 @@ namespace MyPagesTests.Services
         }
 
         [Fact]
-        public async Task GetAll_ValidUsers_ReturnsFolders()
+        public async Task GetAll_ValidUsers_ReturnFolders()
         {
             CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);
             var folderService = CreateService(users, folders, pages);
@@ -62,6 +114,32 @@ namespace MyPagesTests.Services
             var result = await folderService.GetAll();
 
             Assert.Equal(folders.Count, result.Count());
+        }
+
+        [Fact]
+        public async Task GetParentFolders_ValidId_ReturnFolders()
+        {
+            CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);
+            var folderService = CreateService(users, folders, pages);
+            var id = 101;
+            var folder = folders.Single(x => x.Id == id);
+
+            var result = await folderService.GetParentFolders(id);
+
+            Assert.Equal(folder.Childs.Count, result.Count());
+            Assert.Equal(folder.Childs, result);
+        }
+
+        [Fact]
+        public async Task GetParentFolders_InvalidId_ReturnEmptyList()
+        {
+            CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);
+            var folderService = CreateService(users, folders, pages);
+            var id = 999;
+
+            var result = await folderService.GetParentFolders(id);
+
+            Assert.Empty(result);
         }
 
         [Fact]

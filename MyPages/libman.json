@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "Clamp.js@0.5.1",
+      "destination": "wwwroot/lib/Clamp.js/"
+    },
+    {
+      "library": "showdown@1.9.0",
+      "destination": "wwwroot/lib/showdown/"
+    }
+  ]
+}

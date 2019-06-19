@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
 using MyPages.Dtos;
 using MyPages.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using MyPages.Models;
 
 namespace MyPages.Helpers
 {
@@ -12,11 +9,19 @@ namespace MyPages.Helpers
     {
         public AutoMapperProfile()
         {
-            CreateMap<User, UserDto>();
-            CreateMap<UserDto, User>();
+            CreateMap<Folder, CreateNewItemModel>();
+            CreateMap<CreateNewItemModel, Folder>();
 
-            CreateMap<User, UserFormDto>();
-            CreateMap<UserFormDto, User>();
+            CreateMap<Page, CreateNewItemModel>();
+            CreateMap<CreateNewItemModel, Page>();
+
+            CreateMap<Folder, ItemDto>()
+                .ForMember(dest => dest.ItemType,
+                opt => opt.MapFrom(src => "Folder"));
+
+            CreateMap<Page, ItemDto>()
+                .ForMember(dest => dest.ItemType,
+                opt => opt.MapFrom(src => "Page"));
         }
     }
 }

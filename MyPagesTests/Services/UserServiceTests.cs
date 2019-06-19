@@ -176,6 +176,30 @@ namespace MyPagesTests.Services
         }
 
         [Fact]
+        public async Task GetByUsername_ValidUsername_ReturnUser()
+        {
+            CreateEntities(out List<User> users);
+            var userService = CreateService(users);
+            string username = "User101";
+
+            var result = await userService.GetByUsername(username);
+
+            Assert.Equal("User101", result.Username);
+        }
+
+        [Fact]
+        public async Task GetByUsername_InvalidUsername_ReturnNull()
+        {
+            CreateEntities(out List<User> users);
+            var userService = CreateService(users);
+            string username = "User999";
+
+            var result = await userService.GetByUsername(username);
+
+            Assert.Null(result);
+        }
+
+        [Fact]
         public async Task Update_ValidParams_DataUpdated()
         {
             CreateEntities(out List<User> users);

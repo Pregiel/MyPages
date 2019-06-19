@@ -22,7 +22,7 @@ namespace MyPages.Pages
             _userService = userService;
         }
 
-        public void OnGetAsync(string returnUrl = null)
+        public void OnGet(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
         }
