@@ -9,6 +9,11 @@
     {
       "library": "showdown@1.9.0",
       "destination": "wwwroot/lib/showdown/"
+    },
+    {
+      "provider": "unpkg",
+      "library": "font-awesome@4.7.0",
+      "destination": "wwwroot/lib/font-awesome/"
     }
   ]
 }

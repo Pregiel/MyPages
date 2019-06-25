@@ -73,5 +73,63 @@ namespace MyPages.Pages.Page
             return Page();
         }
 
+        public string itemName, itemType;
+        public int itemId;
+
+        public async Task<IActionResult> OnPostDeleteAsync(int? id)
+        {
+            if (!User.Identity.IsAuthenticated)
+                return Page();
+
+            var user = await _userService.GetByUsername(User.Identity.Name);
+            if (user == null)
+                return RedirectToPage("/Index");
+
+            if (id == null)
+                id = user.FolderId;
+
+            Folder = await _folderService.GetByIdWithAllParents(id.Value);
+            if (Folder == null)
+                return Page();
+
+            if (!_folderService.CheckAccess(Folder, user))
+            {
+                Folder = null;
+                return Page();
+            }
+
+            try
+            {
+                if (itemType == "Folder")
+                {
+                    var folder = await _folderService.GetById(itemId);
+
+                    if (_folderService.CheckAccess(folder, user))
+                        await _folderService.Delete(itemId);
+                    else
+                        return Page();
+                }
+                else if (itemType == "Page")
+                {
+                    var page = await _pageService.GetById(itemId);
+
+                    if (_pageService.CheckAccess(page, user))
+                        await _folderService.Delete(itemId);
+                    else
+                        return Page();
+                }
+                else
+                {
+                    return Page();
+                }
+            }
+            catch (ApplicationException)
+            {
+                return Page();
+            }
+
+            return Page();
+        }
+
     }
 }

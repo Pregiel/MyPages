@@ -13,6 +13,57 @@ namespace MyPagesTests.Services
     public class PageServiceTests : ServiceTests<PageService, Page>
     {
         [Fact]
+        public void CheckAccess_ValidObjects_ReturnTrue()
+        {
+            CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);
+            var pageService = CreateService(users, folders, pages);
+            var user = users.Single(x => x.Id == 101);
+            var page = pages.Single(x => x.Id == 101);
+
+            var result = pageService.CheckAccess(page, user);
+
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void CheckAccess_InvalidObjects_ReturnFalse()
+        {
+            CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);
+            var pageService = CreateService(users, folders, pages);
+            var user = users.Single(x => x.Id == 102);
+            var page = pages.Single(x => x.Id == 101);
+
+            var result = pageService.CheckAccess(page, user);
+
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void CheckAccess_UserNull_ReturnFalse()
+        {
+            CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);
+            var pageService = CreateService(users, folders, pages);
+            User user = null;
+            var page = pages.Single(x => x.Id == 101);
+
+            var result = pageService.CheckAccess(page, user);
+
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void CheckAccess_FolderNull_ReturnFalse()
+        {
+            CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);
+            var pageService = CreateService(users, folders, pages);
+            var user = users.Single(x => x.Id == 101);
+            Page page = null;
+
+            var result = pageService.CheckAccess(page, user);
+
+            Assert.False(result);
+        }
+        [Fact]
         public async Task Create_ValidObject_SaveChangesInvoked()
         {
             CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);

@@ -10,6 +10,7 @@ namespace MyPages.Services
 {
     public interface IPageService
     {
+        bool CheckAccess(Page page, User user);
         Task<Page> Create(Page page);
         Task<IEnumerable<Page>> GetAll();
         Task<IEnumerable<Page>> GetPagesFromFolder(int folderId);
@@ -22,6 +23,20 @@ namespace MyPages.Services
         public PageService() : base() { }
         public PageService(DataContext context) : base(context) { }
 
+        public bool CheckAccess(Page page, User user)
+        {
+            if (page == null || user == null)
+                return false;
+
+            Folder fol = page.Folder;
+            while (fol.Parent != null)
+                fol = fol.Parent;
+
+            if (fol.Id == user.Folder.Id)
+                return true;
+
+            return false;
+        }
         public async Task<Page> Create(Page page)
         {
             if (string.IsNullOrWhiteSpace(page.Name))

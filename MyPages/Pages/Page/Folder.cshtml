@@ -4,6 +4,10 @@
     ViewData["Title"] = "Folder";
 }
 
+@section Styles {
+    <link rel="stylesheet" href="~/css/folder.css" />
+}
+
 @if (Model.Folder == null)
 {
     <h1>Unauthorized entry</h1>
@@ -37,10 +41,11 @@ else
             }
             else
             {
-                style = "btn-outline-primary";
+                style = "btn-secondary";
                 href = "/Page/PageView";
             }
-            <div class="col-lg-3 col-md-4 col-6 pl-md-2 pr-md-2 pl-1 pr-1 mt-2 mb-2">
+            <div class="col-lg-3 col-md-4 col-6 pl-md-2 pr-md-2 pl-1 pr-1 mt-2 mb-2 item">
+                <button class="btn @style btn-delete text-white" data-toggle="modal" data-target="#deleteConfirm" data-item-type="@item.ItemType" data-item-name="@item.Name" data-item-id="@item.Id">&times;</button>
                 <a class="btn btn-pages-list @style" asp-page="@href" asp-route-id="@item.Id">@item.Name</a>
             </div>
         }
@@ -48,10 +53,48 @@ else
             <a class="btn btn-pages-list btn-outline-dark" asp-page="/Page/CreateItem" asp-route-id="@Model.Folder.Id">Create</a>
         </div>
     </div>
-
+    <div id="deleteConfirm" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Are you sure?</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Do you really want to delete this element? This process cannot be undone.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-danger" id="deleteConfirmButton">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
     @section Scripts {
         <script type="text/javascript">
-            $('#content').append(mdToHtml('@Model.Folder.Content'));
+            $(() => {
+                $('#content').append(mdToHtml('@Model.Folder.Content'));
+
+                var itemType, itemId, itemName;
+                $('#deleteConfirm').on('show.bs.modal', (e) => {
+                    var button = $(e.relatedTarget);
+                    itemType = button.data('item-type');
+                    itemId = button.data('item-id');
+                    itemName = button.data('item-name');
+                });
+
+                $('#deleteConfirmButton').on('click', () => {
+                    var url = '/Delete/' + itemType + '/' + itemId;
+                    $.ajax({
+                        type: 'get',
+                        url: url,
+                        contentType: 'application/json'
+                    }).done(function (e) {
+                        window.location.reload();
+                    });
+                });
+
+            })
         </script>
     }
 }

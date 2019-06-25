@@ -38,8 +38,20 @@ else
                     <textarea asp-for="ItemModel.Content" class="form-control" rows="15"></textarea>
                     <span asp-validation-for="ItemModel.Content" class="text-danger"></span>
                 </div>
-
-                <div id="content-preview"></div>
+                <div class="card mb-4">
+                    <div class="card-header" id="heading">
+                        <h5 class="mb-0">
+                            <button class="btn w-100 text-left" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Preview
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseOne" class="collapse show" aria-labelledby="heading">
+                        <div class="card-body">
+                            <div id="content-preview"></div>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <input type="submit" value="Create" class="btn btn-primary" />
@@ -51,7 +63,7 @@ else
     @section Scripts {
         @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
         <script type="text/javascript">
-            $('#ItemModel_Content').change(() => {
+            $('#ItemModel_Content').on('change keyup paste', () => {
                 var converter = new showdown.Converter,
                     text = $('#ItemModel_Content').val(),
                     html = converter.makeHtml(text);
