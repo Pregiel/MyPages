@@ -51,6 +51,7 @@ namespace MyPages.Services
                 throw new ApplicationException(Properties.resultMessages.FolderNull);
 
             page.FolderId = page.Folder.Id;
+            page.DataCreated = DateTime.Now;
 
             await _context.Pages.AddAsync(page);
             await _context.SaveChangesAsync();

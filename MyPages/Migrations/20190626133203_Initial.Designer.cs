@@ -9,8 +9,8 @@ using MyPages.Helpers;
 namespace MyPages.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190617111639_RenamedDescriptionToContent")]
-    partial class RenamedDescriptionToContent
+    [Migration("20190626133203_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

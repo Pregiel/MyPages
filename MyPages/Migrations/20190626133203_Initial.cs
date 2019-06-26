@@ -15,9 +15,9 @@ namespace MyPages.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: false),
-                    Description = table.Column<string>(nullable: true),
+                    Content = table.Column<string>(nullable: true),
                     DataCreated = table.Column<DateTime>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.ComputedColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     DataModified = table.Column<DateTime>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.ComputedColumn),
                     ParentId = table.Column<int>(nullable: true)
@@ -42,7 +42,7 @@ namespace MyPages.Migrations
                     Name = table.Column<string>(nullable: false),
                     Content = table.Column<string>(nullable: true),
                     DataCreated = table.Column<DateTime>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.ComputedColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     DataModified = table.Column<DateTime>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.ComputedColumn),
                     FolderId = table.Column<int>(nullable: false)

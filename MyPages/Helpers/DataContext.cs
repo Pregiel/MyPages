@@ -36,9 +36,6 @@ namespace MyPages.Helpers
                 {
                     entity.HasKey(f => f.Id);
                     entity.Property(f => f.Name).IsRequired();
-                    //entity.HasOne(f => f.User)
-                    //    .WithOne(u => u.Folder)
-                    //    .HasForeignKey<Folder>(u => u.UserId);
                     entity.HasOne(f => f.Parent)
                         .WithMany(fp => fp.Childs)
                         .HasForeignKey(f => f.ParentId);

@@ -12,6 +12,12 @@
     <Compile Remove="Migrations\20190614114415_AddedFolderAndPage.Designer.cs" />
     <Compile Remove="Migrations\20190614121211_Initial.cs" />
     <Compile Remove="Migrations\20190614121211_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20190614192749_Initial.cs" />
+    <Compile Remove="Migrations\20190614192749_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20190617111639_RenamedDescriptionToContent.cs" />
+    <Compile Remove="Migrations\20190617111639_RenamedDescriptionToContent.Designer.cs" />
+    <Compile Remove="Migrations\20190626132318_FixedDataCreated.cs" />
+    <Compile Remove="Migrations\20190626132318_FixedDataCreated.Designer.cs" />
   </ItemGroup>
 
 

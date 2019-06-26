@@ -45,6 +45,7 @@ namespace MyPages.Services
             if (string.IsNullOrWhiteSpace(folder.Name))
                 throw new ApplicationException(Properties.resultMessages.NameNull);
 
+            folder.DataCreated = DateTime.Now;
             folder.Pages = null;
             folder.Childs = null;
 
