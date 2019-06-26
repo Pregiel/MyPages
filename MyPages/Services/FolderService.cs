@@ -17,6 +17,7 @@ namespace MyPages.Services
         Task<Folder> GetById(int id);
         Task<Folder> GetByIdWithAllParents(int id);
         Task Delete(int id);
+        Task Update(Folder folderParam);
     }
 
     public class FolderService : Service, IFolderService
@@ -94,6 +95,20 @@ namespace MyPages.Services
             if (folder != null)
             {
                 _context.Folders.Remove(folder);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task Update(Folder folderParam)
+        {
+            var folder = await _context.Folders.SingleOrDefaultAsync(x => x.Id == folderParam.Id);
+
+            if (folder != null)
+            {
+                folder.Name = folderParam.Name;
+                folder.Content = folderParam.Content;
+
+                _context.Folders.Update(folder);
                 await _context.SaveChangesAsync();
             }
         }

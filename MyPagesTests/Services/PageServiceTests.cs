@@ -189,5 +189,20 @@ namespace MyPagesTests.Services
 
             dataContext.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Exactly(0));
         }
+
+        [Fact]
+        public async Task Update_ValidObject_SaveChangesInvoked()
+        {
+            CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);
+            var dataContext = CreateDataContext(users, folders, pages);
+            var pageService = CreateService(dataContext);
+            var page = pages.Single(x => x.Id == 101);
+            page.Name = "Updated Page";
+            page.Content = "Updated content";
+
+            await pageService.Update(page);
+
+            dataContext.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Exactly(1));
+        }
     }
 }

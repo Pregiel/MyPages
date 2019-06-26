@@ -15,15 +15,7 @@
 }
 else
 {
-    <ul class="nav path">
-
-        @foreach (var folder in Model.FoldersPath)
-        {
-            <li class="nav-item">
-                <a class="nav-link" asp-page="/Page/Folder" asp-route-id="@folder.Id">@folder.Name</a>
-            </li>
-        }
-    </ul>
+    <partial name="_Path" model="@Model.Folder"/>
     <hr />
     @if (Model.Folder.Content != null)
     {

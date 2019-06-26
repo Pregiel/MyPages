@@ -1,0 +1,49 @@
+﻿@model Object
+
+<div class="nav row ml-1 mr-1">
+    <ul class="nav path col-sm-11 col-12">
+        @{
+            Entities.Folder folder;
+            int id;
+            string type, name = "";
+            if (Model is Entities.Folder)
+            {
+                folder = (Entities.Folder)Model;
+                id = folder.Id;
+                type = "Folder";
+            }
+            else
+            {
+                var page = (Entities.Page)Model;
+                folder = page.Folder;
+                id = page.Id;
+                type = "Page";
+                name = page.Name;
+            }
+
+            var FoldersPath = new List<Entities.Folder>();
+            while (folder != null)
+            {
+                FoldersPath.Add(folder);
+                folder = folder.Parent;
+            }
+            FoldersPath.Reverse();
+
+            foreach (var fol in FoldersPath)
+            {
+                <li class="nav-item">
+                    <a class="nav-link" asp-page="/Page/Folder" asp-route-id="@fol.Id">@fol.Name</a>
+                </li>
+            }
+            if (type.Equals("Page"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link" asp-page="/Page/Page" asp-route-id="@id">@name</a>
+                </li>
+            }
+        }
+    </ul>
+    <div class="ml-auto">
+        <a class="btn" asp-page="/Page/Update" asp-route-id="@id" asp-route-type="@type"><span class="fa fa-edit"></span></a>
+    </div>
+</div>

@@ -56,8 +56,9 @@ namespace MyPages
                     options.Conventions.AuthorizeFolder("/Page");
                     options.Conventions.AddPageRoute("/Page/Folder", "/Folder/{id:int?}");
                     options.Conventions.AddPageRoute("/Page/CreateItem", "/Folder/{id:int?}/Create/");
-                    options.Conventions.AddPageRoute("/Page/PageView", "/Page/{id:int?}");
+                    options.Conventions.AddPageRoute("/Page/PageView", "/Page/{id:int}");
                     options.Conventions.AddPageRoute("/Page/Delete", "/Delete/{type}/{id:int}");
+                    options.Conventions.AddPageRoute("/Page/Update", "/Update/{type}/{id:int}");
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 

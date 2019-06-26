@@ -28,42 +28,29 @@ namespace MyPages.Pages.Page
             _mapper = mapper;
         }
 
-        public Folder Folder;
         public Entities.Page PageEntity;
-        public List<Folder> FoldersPath = new List<Folder>();
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
             var user = await _userService.GetByUsername(User.Identity.Name);
             if (user == null)
                 return Unauthorized();
 
-            if (id == null)
-                return Page();
-
-            PageEntity = await _pageService.GetById(id.Value);
+            PageEntity = await _pageService.GetById(id);
             if (PageEntity == null)
-                return Page();
+                return NotFound();
 
             var folderId = PageEntity.FolderId;
 
-            Folder = await _folderService.GetByIdWithAllParents(folderId);
+            var Folder = await _folderService.GetByIdWithAllParents(folderId);
             if (Folder == null)
-                return Page();
+                return NotFound();
 
             if (!_folderService.CheckAccess(Folder, user))
             {
                 Folder = null;
-                return Page();
+                return Unauthorized();
             }
-
-            var folder = Folder;
-            while (folder != null)
-            {
-                FoldersPath.Add(folder);
-                folder = folder.Parent;
-            }
-            FoldersPath.Reverse();
 
             return Page();
         }

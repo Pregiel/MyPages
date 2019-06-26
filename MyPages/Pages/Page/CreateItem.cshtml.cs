@@ -43,13 +43,10 @@ namespace MyPages.Pages.Page
 
             Folder = await _folderService.GetByIdWithAllParents(id.Value);
             if (Folder == null)
-                return Page();
+                return NotFound();
 
             if (!_folderService.CheckAccess(Folder, user))
-            {
-                Folder = null;
-                return Page();
-            }
+                return Unauthorized();
 
             return Page();
         }
@@ -59,7 +56,10 @@ namespace MyPages.Pages.Page
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (!User.Identity.IsAuthenticated || !ModelState.IsValid)
+            if (!User.Identity.IsAuthenticated)
+                return Unauthorized();
+
+            if (!ModelState.IsValid)
                 return Page();
 
             var user = await _userService.GetByUsername(User.Identity.Name);
@@ -71,13 +71,10 @@ namespace MyPages.Pages.Page
 
             Folder = await _folderService.GetByIdWithAllParents(id.Value);
             if (Folder == null)
-                return Page();
+                return NotFound();
 
             if (!_folderService.CheckAccess(Folder, user))
-            {
-                Folder = null;
-                return Page();
-            }
+                return Unauthorized();
 
             try
             {
@@ -97,11 +94,11 @@ namespace MyPages.Pages.Page
                 }
                 else
                 {
-                    return Page();
+                    return BadRequest();
                 }
             } catch (ApplicationException)
             {
-                return Page();
+                return BadRequest();
             }
 
             return RedirectToPage("/Page/Folder", new { id = Folder.Id });

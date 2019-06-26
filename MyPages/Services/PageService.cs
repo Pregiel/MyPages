@@ -15,7 +15,9 @@ namespace MyPages.Services
         Task<IEnumerable<Page>> GetAll();
         Task<IEnumerable<Page>> GetPagesFromFolder(int folderId);
         Task<Page> GetById(int id);
+        Task<Page> GetByIdWithAllParents(int id);
         Task Delete(int id);
+        Task Update(Page pageParam);
     }
 
     public class PageService : Service, IPageService
@@ -74,12 +76,45 @@ namespace MyPages.Services
                 .SingleOrDefaultAsync(x => x.Id == id);
         }
 
+        public async Task<Page> GetByIdWithAllParents(int id)
+        {
+            var page = await _context
+                .Pages
+                .Include(x => x.Folder)
+                .SingleOrDefaultAsync(x => x.Id == id);
+
+            if (page == null)
+                return null;
+
+            var parent = page.Folder;
+            while (parent != null)
+            {
+                await _context.Entry(parent).Reference(x => x.Parent).LoadAsync();
+                parent = parent.Parent;
+            }
+            return page;
+        }
+
         public async Task Delete(int id)
         {
             var page = await _context.Pages.SingleOrDefaultAsync(x => x.Id == id);
             if (page != null)
             {
                 _context.Pages.Remove(page);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task Update(Page pageParam)
+        {
+            var page = await _context.Pages.SingleOrDefaultAsync(x => x.Id == pageParam.Id);
+
+            if (page != null)
+            {
+                page.Name = pageParam.Name;
+                page.Content = pageParam.Content;
+
+                _context.Pages.Update(page);
                 await _context.SaveChangesAsync();
             }
         }

@@ -32,7 +32,7 @@ namespace MyPages.Pages.Page
         public async Task<IActionResult> OnGetAsync(string type, int id)
         {
             if (!User.Identity.IsAuthenticated)
-                return Page();
+                return Unauthorized();
 
             var user = await _userService.GetByUsername(User.Identity.Name);
             if (user == null)
@@ -60,12 +60,12 @@ namespace MyPages.Pages.Page
                 }
                 else
                 {
-                    return Unauthorized();
+                    return BadRequest();
                 }
             }
             catch (ApplicationException)
             {
-                return Page();
+                return BadRequest();
             }
 
             return Page();

@@ -15,6 +15,12 @@ namespace MyPages.Helpers
             CreateMap<Page, CreateNewItemModel>();
             CreateMap<CreateNewItemModel, Page>();
 
+            CreateMap<Folder, UpdateItemModel>();
+            CreateMap<UpdateItemModel, Folder>();
+
+            CreateMap<Page, UpdateItemModel>();
+            CreateMap<UpdateItemModel, Page>();
+
             CreateMap<Folder, ItemDto>()
                 .ForMember(dest => dest.ItemType,
                 opt => opt.MapFrom(src => "Folder"));
