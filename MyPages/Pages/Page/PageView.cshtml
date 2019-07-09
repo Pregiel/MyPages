@@ -6,14 +6,14 @@
 
 <partial name="_Path" model="@Model.PageEntity" />
 <hr />
-<div id="content"></div>
+<partial name="_Content" model="@Model.PageEntity" />
 
 
 
 @section Scripts {
-<script type="text/javascript">
+    <script type="text/javascript">
     $(() => {
-        $('#content').append(mdToHtml('@Model.PageEntity.Content'));
+       
     });
-</script>
+    </script>
 }

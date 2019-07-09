@@ -15,11 +15,11 @@
 }
 else
 {
-    <partial name="_Path" model="@Model.Folder"/>
+    <partial name="_Path" model="@Model.Folder" />
     <hr />
     @if (Model.Folder.Content != null)
     {
-        <div id="content"></div>
+        <partial name="_Content" model="@Model.Folder" />
         <hr />
     }
     <div class="row">
@@ -65,7 +65,6 @@ else
     @section Scripts {
         <script type="text/javascript">
             $(() => {
-                $('#content').append(mdToHtml('@Model.Folder.Content'));
 
                 var itemType, itemId, itemName;
                 $('#deleteConfirm').on('show.bs.modal', (e) => {

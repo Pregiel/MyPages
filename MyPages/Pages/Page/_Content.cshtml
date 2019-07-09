@@ -1,0 +1,25 @@
+﻿@model Object
+
+
+@{
+    string content, dataModified;
+    if (Model is Entities.Folder)
+    {
+        var folder = (Entities.Folder)Model;
+        content = folder.Content;
+        dataModified = folder.DataModified.ToString();
+
+    }
+    else
+    {
+        var pageObject = (Entities.Page)Model;
+        content = pageObject.Content;
+        dataModified = pageObject.DataModified.ToString();
+
+
+    }
+
+}
+
+<div>@Westwind.AspNetCore.Markdown.Markdown.ParseHtmlString(content)</div>
+<div class="text-right text-black-50 small">Last modified @dataModified</div>
