@@ -1,49 +1,30 @@
-﻿@model Object
+﻿@model Entities.Page
 
 <div class="nav row ml-1 mr-1">
     <ul class="nav path col-sm-11 col-12">
         @{
-            Entities.Folder folder;
-            int id;
-            string type, name = "";
-            if (Model is Entities.Folder)
-            {
-                folder = (Entities.Folder)Model;
-                id = folder.Id;
-                type = "Folder";
-            }
-            else
-            {
-                var page = (Entities.Page)Model;
-                folder = page.Folder;
-                id = page.Id;
-                type = "Page";
-                name = page.Name;
-            }
+            var page = Model;
+            var id = page.Id;
+            var pagesPathElements = page.Parent;
 
-            var FoldersPath = new List<Entities.Folder>();
-            while (folder != null)
+            var pagesPath = new List<Entities.Page>();
+            pagesPath.Add(Model);
+            while (pagesPathElements != null)
             {
-                FoldersPath.Add(folder);
-                folder = folder.Parent;
+                pagesPath.Add(pagesPathElements);
+                pagesPathElements = pagesPathElements.Parent;
             }
-            FoldersPath.Reverse();
+            pagesPath.Reverse();
 
-            foreach (var fol in FoldersPath)
+            foreach (var fol in pagesPath)
             {
                 <li class="nav-item">
-                    <a class="nav-link" asp-page="/Page/Folder" asp-route-id="@fol.Id">@fol.Name</a>
-                </li>
-            }
-            if (type.Equals("Page"))
-            {
-                <li class="nav-item">
-                    <a class="nav-link" asp-page="/Page/Page" asp-route-id="@id">@name</a>
+                    <a class="nav-link" asp-page="/Page/PageView" asp-route-id="@fol.Id">@fol.Name</a>
                 </li>
             }
         }
     </ul>
     <div class="ml-auto">
-        <a class="btn" asp-page="/Page/Update" asp-route-id="@id" asp-route-type="@type"><span class="fa fa-edit"></span></a>
+        <a class="btn" asp-page="/Page/Update" asp-route-id="@id"><span class="fa fa-edit"></span></a>
     </div>
 </div>

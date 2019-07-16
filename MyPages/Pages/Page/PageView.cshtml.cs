@@ -13,44 +13,53 @@ namespace MyPages.Pages.Page
     public class PageViewModel : PageModel
     {
         private readonly IUserService _userService;
-        private readonly IFolderService _folderService;
         private readonly IPageService _pageService;
         private readonly IMapper _mapper;
 
         public PageViewModel(IUserService userService,
-            IFolderService folderService,
             IPageService pageService,
             IMapper mapper)
         {
             _userService = userService;
-            _folderService = folderService;
             _pageService = pageService;
             _mapper = mapper;
         }
 
+        public List<Entities.Page> Pages = new List<Entities.Page>();
         public Entities.Page PageEntity;
 
-        public async Task<IActionResult> OnGetAsync(int id)
+        public async Task<IActionResult> OnGetAsync(int? id)
         {
             var user = await _userService.GetByUsername(User.Identity.Name);
             if (user == null)
                 return Unauthorized();
 
-            PageEntity = await _pageService.GetById(id);
+            if (id.HasValue)
+            {
+                PageEntity = await _pageService.GetById(id.Value);
+            }
+            else
+            {
+                id = user.MainPageId;
+                PageEntity = user.MainPage;
+            }
+
             if (PageEntity == null)
                 return NotFound();
 
-            var folderId = PageEntity.FolderId;
 
-            var Folder = await _folderService.GetByIdWithAllParents(folderId);
-            if (Folder == null)
+            var mainPage = await _pageService.GetByIdWithAllParents(id.Value);
+            if (mainPage == null)
                 return NotFound();
 
-            if (!_folderService.CheckAccess(Folder, user))
+            if (!_pageService.CheckAccess(mainPage, user))
             {
-                Folder = null;
+                mainPage = null;
                 return Unauthorized();
             }
+
+            var pages = await _pageService.GetPagesFromPage(PageEntity.Id);
+            Pages.AddRange(pages);
 
             return Page();
         }

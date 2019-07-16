@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyPages.Models
 {
-    public class UpdateItemModel
+    public class UpdatePageModel
     {
         private const string _fieldNullMessage = "{0} is required.";
 

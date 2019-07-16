@@ -54,7 +54,6 @@ namespace MyPagesTests
 
         public static void CreateEntities(
             out List<User> users,
-            out List<Folder> folders,
             out List<Page> pages)
         {
             CreateEntities(out users);
@@ -62,212 +61,160 @@ namespace MyPagesTests
             var user102 = users.Single(x => x.Id == 102);
             var user103 = users.Single(x => x.Id == 103);
 
-            Folder folder101, folder101a, folder101b, folder101aa, folder101ba, folder101bb,
-                folder101bba, folder101bbb, folder101bbc,
-                folder102,
-                folder103;
-            Page page1011, page1012, page101a1, page101bb1, page101bb2, page101bb3,
-                page101bb4, page101bba1, page101bbb1, page101bbb2;
+            Page
+                page101,
+                    page1011,
+                        page10111,
+                    page1012,
+                        page10121,
+                            page101211,
+                        page10122,
+                        page10123,
+                            page101231,
+                page102,
+                    page1021,
+                    page1022,
+                    page1023,
+                    page1024,
+                    page1025,
+                page103;
 
-            folder101 = new Folder
+            page101 = new Page
             {
                 Id = 101,
-                Name = "User101 pages",
-                Content = "Desc",
+                Name = "Page101",
+                Content = "Content101",
                 Parent = null
             };
-
-            folder101a = new Folder
-            {
-                Id = 102,
-                Name = "Folder101a",
-                Content = "DescriptionFolder101a",
-                Parent = folder101
-            };
-
-            folder101b = new Folder
-            {
-                Id = 103,
-                Name = "Folder101b",
-                Content = "DescriptionFolder101b",
-                Parent = folder101
-            };
-
-            folder101aa = new Folder
-            {
-                Id = 104,
-                Name = "Folder101aa",
-                Content = "DescriptionFolder101aa",
-                Parent = folder101b
-            };
-
-            folder101ba = new Folder
-            {
-                Id = 105,
-                Name = "Folder101ba",
-                Content = "DescriptionFolder101ba",
-                Parent = folder101b
-            };
-
-            folder101bb = new Folder
-            {
-                Id = 106,
-                Name = "Folder101bb",
-                Content = "DescriptionFolder101bb",
-                Parent = folder101b
-            };
-
-            folder101bba = new Folder
-            {
-                Id = 107,
-                Name = "Folder101bba",
-                Content = "DescriptionFolder101bba",
-                Parent = folder101bb
-            };
-
-            folder101bbb = new Folder
-            {
-                Id = 108,
-                Name = "Folder101bbb",
-                Content = "DescriptionFolder101bbb",
-                Parent = folder101bb
-            };
-
-            folder101bbc = new Folder
-            {
-                Id = 109,
-                Name = "Folder101bbc",
-                Content = "DescriptionFolder101bbc",
-                Parent = folder101bb
-            };
-
-            folder102 = new Folder
-            {
-                Id = 110,
-                Name = "User102 pages",
-                Content = "Desc",
-                Parent = null
-            };
-
-            folder103 = new Folder
-            {
-                Id = 111,
-                Name = "User103 pages",
-                Content = "Desc",
-                Parent = null
-            };
-
             page1011 = new Page
             {
-                Id = 101,
+                Id = 1011,
                 Name = "Page1011",
-                Content = "ContentPage1011",
-                Folder = folder101
+                Content = "Content1011",
+                Parent = page101
             };
-
+            page10111 = new Page
+            {
+                Id = 10111,
+                Name = "Page10111",
+                Content = "Content10111",
+                Parent = page1011
+            };
             page1012 = new Page
             {
-                Id = 102,
+                Id = 1012,
                 Name = "Page1012",
-                Content = "ContentPage1012",
-                Folder = folder101
+                Content = "Content1012",
+                Parent = page101
             };
-
-            page101a1 = new Page
+            page10121 = new Page
+            {
+                Id = 10121,
+                Name = "Page10121",
+                Content = "Content10121",
+                Parent = page1012
+            };
+            page101211 = new Page
+            {
+                Id = 101211,
+                Name = "Page101211",
+                Content = "Content101211",
+                Parent = page10121
+            };
+            page10122 = new Page
+            {
+                Id = 10122,
+                Name = "Page10122",
+                Content = "Content10122",
+                Parent = page1012
+            };
+            page10123 = new Page
+            {
+                Id = 10123,
+                Name = "Page10123",
+                Content = "Content10123",
+                Parent = page1012
+            };
+            page101231 = new Page
+            {
+                Id = 101231,
+                Name = "Page101231",
+                Content = "Content101231",
+                Parent = page10123
+            };
+            page102 = new Page
+            {
+                Id = 102,
+                Name = "Page102",
+                Content = "Content102",
+                Parent = null
+            };
+            page1021 = new Page
+            {
+                Id = 1021,
+                Name = "Page1021",
+                Content = "Content1021",
+                Parent = page102
+            };
+            page1022 = new Page
+            {
+                Id = 1022,
+                Name = "Page1022",
+                Content = "Content1022",
+                Parent = page102
+            };
+            page1023 = new Page
+            {
+                Id = 1023,
+                Name = "Page1023",
+                Content = "Content1023",
+                Parent = page102
+            };
+            page1024 = new Page
+            {
+                Id = 1024,
+                Name = "Page1024",
+                Content = "Content1024",
+                Parent = page102
+            };
+            page1025 = new Page
+            {
+                Id = 1025,
+                Name = "Page1025",
+                Content = "Content1025",
+                Parent = page102
+            };
+            page103 = new Page
             {
                 Id = 103,
-                Name = "Page101a1",
-                Content = "ContentPage101a1",
-                Folder = folder101a
+                Name = "Page103",
+                Content = "Content103",
+                Parent = null
             };
 
-            page101bb1 = new Page
-            {
-                Id = 104,
-                Name = "Page101bb1",
-                Content = "ContentPage101bb1",
-                Folder = folder101bb
-            };
+            page101.Childs = new List<Page> { page1011, page1012 };
+            page1011.Childs = new List<Page> { page10111 };
+            page10111.Childs = new List<Page> { };
+            page1012.Childs = new List<Page> { page10121, page10122, page10123 };
+            page10121.Childs = new List<Page> { page101211 };
+            page10122.Childs = new List<Page> { };
+            page10123.Childs = new List<Page> { page101231 };
+            page101231.Childs = new List<Page> { };
+            page102.Childs = new List<Page> { page1021, page1022, page1023, page1024, page1025 };
+            page1021.Childs = new List<Page> { };
+            page1022.Childs = new List<Page> { };
+            page1023.Childs = new List<Page> { };
+            page1024.Childs = new List<Page> { };
+            page1025.Childs = new List<Page> { };
+            page103.Childs = new List<Page> { };
 
-            page101bb2 = new Page
-            {
-                Id = 105,
-                Name = "Page101bb2",
-                Content = "ContentPage101bb2",
-                Folder = folder101bb
-            };
+            user101.MainPage = page101;
+            user102.MainPage = page102;
+            user103.MainPage = page103;
 
-            page101bb3 = new Page
-            {
-                Id = 106,
-                Name = "Page101bb3",
-                Content = "ContentPage101bb3",
-                Folder = folder101bb
-            };
-
-            page101bb4 = new Page
-            {
-                Id = 107,
-                Name = "Page101bb4",
-                Content = "ContentPage101bb4",
-                Folder = folder101bb
-            };
-
-            page101bba1 = new Page
-            {
-                Id = 108,
-                Name = "Page101bba1",
-                Content = "ContentPage101bba1",
-                Folder = folder101bba
-            };
-
-            page101bbb1 = new Page
-            {
-                Id = 109,
-                Name = "Page101bbb1",
-                Content = "ContentPage101bbb1",
-                Folder = folder101bbb
-            };
-
-            page101bbb2 = new Page
-            {
-                Id = 110,
-                Name = "Page101bbb2",
-                Content = "ContentPage101bbb2",
-                Folder = folder101bbb
-            };
-
-            folder101.Childs = new List<Folder> { folder101a, folder101b };
-            folder101.Pages = new List<Page> { page1011, page1012 };
-            folder101a.Childs = new List<Folder> { folder101aa };
-            folder101a.Pages = new List<Page> { page101a1 };
-            folder101b.Childs = new List<Folder> { folder101ba, folder101bb };
-            folder101b.Pages = new List<Page> { };
-            folder101bb.Childs = new List<Folder> { folder101bba, folder101bbb, folder101bbc };
-            folder101bb.Pages = new List<Page> { page101bb1, page101bb2, page101bb3, page101bb4 };
-            folder101bba.Childs = new List<Folder> { };
-            folder101bba.Pages = new List<Page> { page101bba1 };
-            folder101bbb.Childs = new List<Folder> { };
-            folder101bbb.Pages = new List<Page> { page101bbb1, page101bbb2 };
-            folder101bbc.Childs = new List<Folder> { };
-            folder101bbc.Pages = new List<Page> { };
-            folder102.Childs = new List<Folder> { };
-            folder102.Pages = new List<Page> { };
-            folder102.Childs = new List<Folder> { };
-            folder102.Pages = new List<Page> { };
-
-            user101.Folder = folder101;
-            user102.Folder = folder102;
-            user103.Folder = folder103;
-
-            folders = new List<Folder> { folder101, folder101a, folder101b, folder101aa, folder101ba,
-                folder101bb, folder101bba, folder101bbb, folder101bbc,
-                folder102,
-                folder103
-            };
-            pages = new List<Page> { page1011, page1012, page101a1, page101bb1, page101bb2, page101bb3,
-                page101bb4, page101bba1, page101bbb1, page101bbb2
-            };
+            pages = new List<Page> { page101, page1011, page10111, page1012, page10121,
+                page101211, page10122, page10123, page101231, page102, page1021,
+                page1022, page1023, page1024, page1025, page103 };
         }
 
         protected Mock<DataContext> CreateDataContext<U>(List<U> objects) where U : class
@@ -282,10 +229,6 @@ namespace MyPagesTests
                     dataContextMock.Setup(x => x.Users).Returns(mockUserRoomsSet.Object as DbSet<User>);
                     break;
 
-                case Type _ when type == typeof(Folder):
-                    dataContextMock.Setup(x => x.Folders).Returns(mockUserRoomsSet.Object as DbSet<Folder>);
-                    break;
-
                 case Type _ when type == typeof(Page):
                     dataContextMock.Setup(x => x.Pages).Returns(mockUserRoomsSet.Object as DbSet<Page>);
                     break;
@@ -296,16 +239,13 @@ namespace MyPagesTests
 
         protected Mock<DataContext> CreateDataContext(
             List<User> users,
-            List<Folder> folder,
             List<Page> pages)
         {
             var mockUsersSet = CreateDbSetMock(users);
-            var mockFoldersSet = CreateDbSetMock(folder);
             var mockPagesSet = CreateDbSetMock(pages);
 
             var dataContextMock = new Mock<DataContext>();
             dataContextMock.Setup(x => x.Users).Returns(mockUsersSet.Object);
-            dataContextMock.Setup(x => x.Folders).Returns(mockFoldersSet.Object);
             dataContextMock.Setup(x => x.Pages).Returns(mockPagesSet.Object);
 
             return dataContextMock;

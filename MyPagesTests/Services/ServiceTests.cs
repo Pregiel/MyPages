@@ -21,10 +21,9 @@ namespace MyPagesTests.Services
         }
         protected T CreateService(
             List<User> users,
-            List<Folder> folder,
             List<Page> pages)
         {
-            var dataContextMock = CreateDataContext(users, folder, pages);
+            var dataContextMock = CreateDataContext(users, pages);
 
             return new T { Context = dataContextMock.Object };
         }

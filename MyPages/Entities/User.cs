@@ -12,18 +12,18 @@ namespace MyPages.Entities
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
 
-        public int FolderId { get; set; }
-        private Folder _folder { get; set; }
-        public virtual Folder Folder
+        public int MainPageId { get; set; }
+        private Page _mainPage { get; set; }
+        public virtual Page MainPage
         {
             get
             {
-                return _folder;
+                return _mainPage;
             }
             set
             {
-                _folder = value;
-                FolderId = value.Id;
+                _mainPage = value;
+                MainPageId = value.Id;
             }
         }
     }

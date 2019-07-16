@@ -1,17 +1,16 @@
-﻿@page "{id:int}"
-@model MyPages.Pages.Page.UpdateModel
+﻿@page "{id:int?}"
+@model MyPages.Pages.Page.CreateModel
 @{
-    ViewData["Title"] = "Update";
+    ViewData["Title"] = "Create page/folder";
 }
-
-@if (Model.Item == null)
+@if (Model.CurrentPage == null)
 {
     <h1>Unauthorized entry</h1>
     <hr />
 }
 else
 {
-    <h1>Update page/folder</h1>
+    <h1>Create page/folder</h1>
     <hr />
 
     <div class="row">
@@ -32,7 +31,7 @@ else
                 <div class="card mb-4">
                     <div class="card-header" id="heading">
                         <h5 class="mb-0">
-                            <button class="btn w-100 text-left" type="button" data-toggle="collapse" data-target="#collapseOne">
+                            <button type="button" class="btn w-100 text-left" data-toggle="collapse" data-target="#collapseOne">
                                 Preview
                             </button>
                         </h5>
@@ -45,8 +44,8 @@ else
                 </div>
 
                 <div class="form-group">
-                    <input type="submit" value="Update" class="btn btn-primary" />
-                    <button type="button" class="btn btn-outline-primary" id="resetButton">Reset</button>
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                    <button type="reset" class="btn btn-outline-primary" id="clearButton">Clear</button>
                 </div>
             </form>
         </div>
@@ -56,25 +55,16 @@ else
         @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
         <script type="text/javascript">
             $(() => {
-                var name = $('#PageModel_Name').val();
-                var content = $('#PageModel_Content').text();
                 $('#PageModel_Content').on('change keyup paste', () => {
                     var converter = new showdown.Converter,
                         text = $('#PageModel_Content').val(),
                         html = converter.makeHtml(text);
                     $('#content-preview').empty().append(html);
                 });
-                $('#resetButton').on('click', (e) => {
-                    e.preventDefault();
-                    $('#PageModel_Name').val(name);
-                    $('#PageModel_Content').val(content);
-                    var converter = new showdown.Converter,
-                        text = $('#PageModel_Content').val(),
-                        html = converter.makeHtml(text);
-                    $('#content-preview').empty().append(html);
+                $('#clearButton').on('click', (e) => {
+                    $('#content-preview').empty();
                 });
             });
         </script>
     }
 }
-

@@ -53,7 +53,7 @@ namespace MyPages.Services
 
             PasswordHelpers.CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
 
-            var folder = new Folder
+            var folder = new Page
             {
                 Name = username + " pages"
             };
@@ -63,7 +63,7 @@ namespace MyPages.Services
                 Username = username,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
-                Folder = folder
+                MainPage = folder
             };
 
             await _context.Users.AddAsync(user);
@@ -86,7 +86,7 @@ namespace MyPages.Services
         {
             return await _context
                 .Users
-                .Include(x => x.Folder)
+                .Include(x => x.MainPage)
                 .SingleOrDefaultAsync(x => x.Username == username);
         }
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyPages.Models
 {
-    public class CreateNewItemModel
+    public class CreateNewPageModel
     {
         private const string _fieldNullMessage = "{0} is required.";
 
@@ -16,8 +16,5 @@ namespace MyPages.Models
 
         [DataType(DataType.MultilineText)]
         public string Content { get; set; }
-
-        [Required(ErrorMessage = _fieldNullMessage)]
-        public string ItemType { get; set; }
     }
 }

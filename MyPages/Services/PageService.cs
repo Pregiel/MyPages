@@ -13,7 +13,7 @@ namespace MyPages.Services
         bool CheckAccess(Page page, User user);
         Task<Page> Create(Page page);
         Task<IEnumerable<Page>> GetAll();
-        Task<IEnumerable<Page>> GetPagesFromFolder(int folderId);
+        Task<IEnumerable<Page>> GetPagesFromPage(int pageId);
         Task<Page> GetById(int id);
         Task<Page> GetByIdWithAllParents(int id);
         Task Delete(int id);
@@ -30,11 +30,11 @@ namespace MyPages.Services
             if (page == null || user == null)
                 return false;
 
-            Folder fol = page.Folder;
-            while (fol.Parent != null)
-                fol = fol.Parent;
+            Page mainPage = page;
+            while (mainPage.Parent != null)
+                mainPage = mainPage.Parent;
 
-            if (fol.Id == user.Folder.Id)
+            if (mainPage.Id == user.MainPage.Id)
                 return true;
 
             return false;
@@ -44,13 +44,13 @@ namespace MyPages.Services
             if (string.IsNullOrWhiteSpace(page.Name))
                 throw new ApplicationException(Properties.resultMessages.NameNull);
 
-            if (page.Folder == null)
+            if (page.Name == null)
                 throw new ApplicationException(Properties.resultMessages.FolderNull);
 
-            if (_context.Folders.SingleOrDefault(x => x.Id == page.Folder.Id) == null)
+            if (_context.Pages.SingleOrDefault(x => x.Id == page.Parent.Id) == null)
                 throw new ApplicationException(Properties.resultMessages.FolderNull);
 
-            page.FolderId = page.Folder.Id;
+            page.ParentId = page.Parent.Id;
             page.DataCreated = DateTime.Now;
 
             await _context.Pages.AddAsync(page);
@@ -64,16 +64,16 @@ namespace MyPages.Services
             return await _context.Pages.ToListAsync();
         }
 
-        public async Task<IEnumerable<Page>> GetPagesFromFolder(int folderId)
+        public async Task<IEnumerable<Page>> GetPagesFromPage(int pageId)
         {
-            return await _context.Pages.Where(x => x.FolderId == folderId).ToListAsync();
+            return await _context.Pages.Where(x => x.ParentId == pageId).ToListAsync();
         }
 
         public async Task<Page> GetById(int id)
         {
             return await _context
                 .Pages
-                .Include(x => x.Folder)
+                .Include(x => x.Parent)
                 .SingleOrDefaultAsync(x => x.Id == id);
         }
 
@@ -81,13 +81,13 @@ namespace MyPages.Services
         {
             var page = await _context
                 .Pages
-                .Include(x => x.Folder)
+                .Include(x => x.Parent)
                 .SingleOrDefaultAsync(x => x.Id == id);
 
             if (page == null)
                 return null;
 
-            var parent = page.Folder;
+            var parent = page.Parent;
             while (parent != null)
             {
                 await _context.Entry(parent).Reference(x => x.Parent).LoadAsync();

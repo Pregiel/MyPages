@@ -1,23 +1,12 @@
-﻿@model Object
+﻿@model Entities.Page
 
 
 @{
     string content, dataModified;
-    if (Model is Entities.Folder)
-    {
-        var folder = (Entities.Folder)Model;
-        content = folder.Content;
-        dataModified = folder.DataModified.ToString();
 
-    }
-    else
-    {
-        var pageObject = (Entities.Page)Model;
-        content = pageObject.Content;
-        dataModified = pageObject.DataModified.ToString();
-
-
-    }
+    var page = Model;
+    content = page.Content;
+    dataModified = page.DataModified.ToString();
 
 }
 

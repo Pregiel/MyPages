@@ -17,7 +17,7 @@ namespace MyPages.Migrations
                 .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("MyPages.Entities.Folder", b =>
+            modelBuilder.Entity("MyPages.Entities.Page", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -41,33 +41,6 @@ namespace MyPages.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("Folders");
-                });
-
-            modelBuilder.Entity("MyPages.Entities.Page", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Content");
-
-                    b.Property<DateTime>("DataCreated")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
-
-                    b.Property<DateTime>("DataModified")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
-
-                    b.Property<int>("FolderId");
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FolderId");
-
                     b.ToTable("Pages");
                 });
 
@@ -76,7 +49,7 @@ namespace MyPages.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("FolderId");
+                    b.Property<int>("MainPageId");
 
                     b.Property<byte[]>("PasswordHash");
 
@@ -87,7 +60,7 @@ namespace MyPages.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FolderId")
+                    b.HasIndex("MainPageId")
                         .IsUnique();
 
                     b.HasIndex("Username")
@@ -96,26 +69,18 @@ namespace MyPages.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("MyPages.Entities.Folder", b =>
+            modelBuilder.Entity("MyPages.Entities.Page", b =>
                 {
-                    b.HasOne("MyPages.Entities.Folder", "Parent")
+                    b.HasOne("MyPages.Entities.Page", "Parent")
                         .WithMany("Childs")
                         .HasForeignKey("ParentId");
                 });
 
-            modelBuilder.Entity("MyPages.Entities.Page", b =>
-                {
-                    b.HasOne("MyPages.Entities.Folder", "Folder")
-                        .WithMany("Pages")
-                        .HasForeignKey("FolderId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("MyPages.Entities.User", b =>
                 {
-                    b.HasOne("MyPages.Entities.Folder", "Folder")
+                    b.HasOne("MyPages.Entities.Page", "MainPage")
                         .WithOne()
-                        .HasForeignKey("MyPages.Entities.User", "FolderId")
+                        .HasForeignKey("MyPages.Entities.User", "MainPageId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

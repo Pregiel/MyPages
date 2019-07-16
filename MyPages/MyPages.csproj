@@ -18,6 +18,10 @@
     <Compile Remove="Migrations\20190617111639_RenamedDescriptionToContent.Designer.cs" />
     <Compile Remove="Migrations\20190626132318_FixedDataCreated.cs" />
     <Compile Remove="Migrations\20190626132318_FixedDataCreated.Designer.cs" />
+    <Compile Remove="Migrations\20190626133203_Initial.cs" />
+    <Compile Remove="Migrations\20190626133203_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20190710135612_RemovedFolderEntity.cs" />
+    <Compile Remove="Migrations\20190710135612_RemovedFolderEntity.Designer.cs" />
   </ItemGroup>
 
 
@@ -45,5 +49,9 @@
       <LastGenOutput>resultMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  
+<ItemGroup>
+  <Folder Include="Dtos\" />
+</ItemGroup>
 
 </Project>

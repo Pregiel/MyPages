@@ -11,7 +11,6 @@ namespace MyPages.Helpers
     public class DataContext : DbContext
     {
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<Folder> Folders { get; set; }
         public virtual DbSet<Page> Pages { get; set; }
 
         public DataContext(DbContextOptions options) : base(options) { }
@@ -28,25 +27,17 @@ namespace MyPages.Helpers
                     entity.HasKey(u => u.Id);
                     entity.Property(u => u.Username).IsRequired();
                     entity.HasIndex(u => u.Username).IsUnique();
-                    entity.HasOne(u => u.Folder)
+                    entity.HasOne(u => u.MainPage)
                     .WithOne()
-                    .HasForeignKey<User>(u => u.FolderId);
-                })
-                .Entity<Folder>(entity =>
-                {
-                    entity.HasKey(f => f.Id);
-                    entity.Property(f => f.Name).IsRequired();
-                    entity.HasOne(f => f.Parent)
-                        .WithMany(fp => fp.Childs)
-                        .HasForeignKey(f => f.ParentId);
+                    .HasForeignKey<User>(u => u.MainPageId);
                 })
                 .Entity<Page>(entity =>
                 {
                     entity.HasKey(p => p.Id);
                     entity.Property(p => p.Name).IsRequired();
-                    entity.HasOne(p => p.Folder)
-                        .WithMany(f => f.Pages)
-                        .HasForeignKey(p => p.FolderId);
+                    entity.HasOne(p => p.Parent)
+                        .WithMany(f => f.Childs)
+                        .HasForeignKey(p => p.ParentId);
                 });
         }
     }

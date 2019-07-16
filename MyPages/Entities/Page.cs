@@ -20,19 +20,21 @@ namespace MyPages.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime DataModified { get; set; }
 
-        public int FolderId { get; set; }
-        private Folder _folder { get; set; }
-        public virtual Folder Folder
+        public int? ParentId { get; set; }
+        private Page _parent { get; set; }
+        public virtual Page Parent
         {
             get
             {
-                return _folder;
+                return _parent;
             }
             set
             {
-                _folder = value;
-                FolderId = value.Id;
+                _parent = value;
+                if (value != null)
+                    ParentId = value.Id;
             }
         }
+        public virtual ICollection<Page> Childs { get; set; }
     }
 }

@@ -15,10 +15,10 @@ namespace MyPagesTests.Services
         [Fact]
         public void CheckAccess_ValidObjects_ReturnTrue()
         {
-            CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);
-            var pageService = CreateService(users, folders, pages);
+            CreateEntities(out List<User> users, out List<Page> pages);
+            var pageService = CreateService(users, pages);
             var user = users.Single(x => x.Id == 101);
-            var page = pages.Single(x => x.Id == 101);
+            var page = pages.Single(x => x.Id == 101211);
 
             var result = pageService.CheckAccess(page, user);
 
@@ -28,8 +28,8 @@ namespace MyPagesTests.Services
         [Fact]
         public void CheckAccess_InvalidObjects_ReturnFalse()
         {
-            CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);
-            var pageService = CreateService(users, folders, pages);
+            CreateEntities(out List<User> users, out List<Page> pages);
+            var pageService = CreateService(users, pages);
             var user = users.Single(x => x.Id == 102);
             var page = pages.Single(x => x.Id == 101);
 
@@ -41,8 +41,8 @@ namespace MyPagesTests.Services
         [Fact]
         public void CheckAccess_UserNull_ReturnFalse()
         {
-            CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);
-            var pageService = CreateService(users, folders, pages);
+            CreateEntities(out List<User> users, out List<Page> pages);
+            var pageService = CreateService(users, pages);
             User user = null;
             var page = pages.Single(x => x.Id == 101);
 
@@ -54,8 +54,8 @@ namespace MyPagesTests.Services
         [Fact]
         public void CheckAccess_FolderNull_ReturnFalse()
         {
-            CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);
-            var pageService = CreateService(users, folders, pages);
+            CreateEntities(out List<User> users, out List<Page> pages);
+            var pageService = CreateService(users, pages);
             var user = users.Single(x => x.Id == 101);
             Page page = null;
 
@@ -66,15 +66,15 @@ namespace MyPagesTests.Services
         [Fact]
         public async Task Create_ValidObject_SaveChangesInvoked()
         {
-            CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);
-            var dataContext = CreateDataContext(users, folders, pages);
+            CreateEntities(out List<User> users, out List<Page> pages);
+            var dataContext = CreateDataContext(users, pages);
             var pageService = CreateService(dataContext);
             var user = users.Single(x => x.Id == 101);
             var page = new Page
             {
                 Name = "Page201",
                 Content = "Content",
-                Folder = user.Folder
+                Parent = user.MainPage
             };
 
             await pageService.Create(page);
@@ -88,14 +88,14 @@ namespace MyPagesTests.Services
         [InlineData("   ")]
         public async Task Create_NullOrWhiteSpacesName_ThrowsNameNullError(string name)
         {
-            CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);
-            var pageService = CreateService(users, folders, pages);
+            CreateEntities(out List<User> users, out List<Page> pages);
+            var pageService = CreateService(users, pages);
             var user = users.Single(x => x.Id == 101);
             var page = new Page
             {
                 Name = name,
                 Content = "Content",
-                Folder = user.Folder
+                Parent = user.MainPage
             };
 
             var exception = await Assert.ThrowsAsync<ApplicationException>(
@@ -107,8 +107,8 @@ namespace MyPagesTests.Services
         [Fact]
         public async Task GetAll_ValidUsers_ReturnsPages()
         {
-            CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);
-            var pageService = CreateService(users, folders, pages);
+            CreateEntities(out List<User> users, out List<Page> pages);
+            var pageService = CreateService(users, pages);
 
             var result = await pageService.GetAll();
 
@@ -118,24 +118,24 @@ namespace MyPagesTests.Services
         [Fact]
         public async Task GetPagesFromFolder_ValidId_ReturnsPages()
         {
-            CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);
-            var pageService = CreateService(users, folders, pages);
-            var id = 101;
-            var folder = folders.Single(x => x.Id == id);
+            CreateEntities(out List<User> users, out List<Page> pages);
+            var pageService = CreateService(users, pages);
+            var id = 1012;
+            var folder = pages.Single(x => x.Id == id);
 
-            var result = await pageService.GetPagesFromFolder(id);
+            var result = await pageService.GetPagesFromPage(id);
 
-            Assert.Equal(folder.Pages, result);
+            Assert.Equal(folder.Childs, result);
         }
 
         [Fact]
         public async Task GetPagesFromFolder_InvalidId_ReturnsEmptyList()
         {
-            CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);
-            var pageService = CreateService(users, folders, pages);
+            CreateEntities(out List<User> users, out List<Page> pages);
+            var pageService = CreateService(users, pages);
             var id = 999;
 
-            var result = await pageService.GetPagesFromFolder(id);
+            var result = await pageService.GetPagesFromPage(id);
 
             Assert.Empty(result);
         }
@@ -143,20 +143,20 @@ namespace MyPagesTests.Services
         [Fact]
         public async Task GetById_ValidId_ReturnPage()
         {
-            CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);
-            var pageService = CreateService(users, folders, pages);
-            int id = 103;
+            CreateEntities(out List<User> users, out List<Page> pages);
+            var pageService = CreateService(users, pages);
+            int id = 1011;
 
             var result = await pageService.GetById(id);
 
-            Assert.Equal("Page101a1", result.Name);
+            Assert.Equal("Page1011", result.Name);
         }
 
         [Fact]
         public async Task GetById_InvalidId_ReturnNull()
         {
-            CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);
-            var pageService = CreateService(users, folders, pages);
+            CreateEntities(out List<User> users, out List<Page> pages);
+            var pageService = CreateService(users, pages);
             int id = 999;
 
             var result = await pageService.GetById(id);
@@ -167,10 +167,10 @@ namespace MyPagesTests.Services
         [Fact]
         public async Task Delete_ValidId_SaveChangesInvoked()
         {
-            CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);
-            var dataContext = CreateDataContext(users, folders, pages);
+            CreateEntities(out List<User> users, out List<Page> pages);
+            var dataContext = CreateDataContext(users, pages);
             var pageService = CreateService(dataContext);
-            int id = 109;
+            int id = 10111;
 
             await pageService.Delete(id);
 
@@ -180,8 +180,8 @@ namespace MyPagesTests.Services
         [Fact]
         public async Task Delete_InvalidId_SaveChangesNotInvokedAsync()
         {
-            CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);
-            var dataContext = CreateDataContext(users, folders, pages);
+            CreateEntities(out List<User> users, out List<Page> pages);
+            var dataContext = CreateDataContext(users, pages);
             var pageService = CreateService(dataContext);
             int id = 999;
 
@@ -193,8 +193,8 @@ namespace MyPagesTests.Services
         [Fact]
         public async Task Update_ValidObject_SaveChangesInvoked()
         {
-            CreateEntities(out List<User> users, out List<Folder> folders, out List<Page> pages);
-            var dataContext = CreateDataContext(users, folders, pages);
+            CreateEntities(out List<User> users, out List<Page> pages);
+            var dataContext = CreateDataContext(users, pages);
             var pageService = CreateService(dataContext);
             var page = pages.Single(x => x.Id == 101);
             page.Name = "Updated Page";
