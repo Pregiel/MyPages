@@ -35,6 +35,6 @@ namespace MyPages.Entities
                     ParentId = value.Id;
             }
         }
-        public virtual ICollection<Page> Childs { get; set; }
+        public virtual ICollection<Page> Children { get; set; }
     }
 }

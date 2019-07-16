@@ -74,6 +74,7 @@ namespace MyPages.Services
             return await _context
                 .Pages
                 .Include(x => x.Parent)
+                .Include(x => x.Children)
                 .SingleOrDefaultAsync(x => x.Id == id);
         }
 
@@ -96,12 +97,42 @@ namespace MyPages.Services
             return page;
         }
 
+        private async Task ReferenceChildren(Page page)
+        {
+            await _context.Entry(page).Collection(x => x.Children).LoadAsync();
+            foreach (Page child in page.Children)
+            {
+                await ReferenceChildren(child);
+            }
+        }
+
+        public async Task<Page> GetByIdWithAllChildren(int id)
+        {
+            var page = await _context
+                .Pages
+                .Include(x => x.Children)
+                .SingleOrDefaultAsync(x => x.Id == id);
+
+            if (page == null)
+                return null;
+
+            await ReferenceChildren(page);
+            return page;
+        }
+
+        private void Remove(Page page)
+        {
+            foreach (Page child in page.Children)
+                Remove(child);
+            _context.Pages.Remove(page);
+        }
+
         public async Task Delete(int id)
         {
-            var page = await _context.Pages.SingleOrDefaultAsync(x => x.Id == id);
+            var page = await GetByIdWithAllChildren(id);
             if (page != null)
             {
-                _context.Pages.Remove(page);
+                Remove(page);
                 await _context.SaveChangesAsync();
             }
         }

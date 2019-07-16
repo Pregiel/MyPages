@@ -192,21 +192,21 @@ namespace MyPagesTests
                 Parent = null
             };
 
-            page101.Childs = new List<Page> { page1011, page1012 };
-            page1011.Childs = new List<Page> { page10111 };
-            page10111.Childs = new List<Page> { };
-            page1012.Childs = new List<Page> { page10121, page10122, page10123 };
-            page10121.Childs = new List<Page> { page101211 };
-            page10122.Childs = new List<Page> { };
-            page10123.Childs = new List<Page> { page101231 };
-            page101231.Childs = new List<Page> { };
-            page102.Childs = new List<Page> { page1021, page1022, page1023, page1024, page1025 };
-            page1021.Childs = new List<Page> { };
-            page1022.Childs = new List<Page> { };
-            page1023.Childs = new List<Page> { };
-            page1024.Childs = new List<Page> { };
-            page1025.Childs = new List<Page> { };
-            page103.Childs = new List<Page> { };
+            page101.Children = new List<Page> { page1011, page1012 };
+            page1011.Children = new List<Page> { page10111 };
+            page10111.Children = new List<Page> { };
+            page1012.Children = new List<Page> { page10121, page10122, page10123 };
+            page10121.Children = new List<Page> { page101211 };
+            page10122.Children = new List<Page> { };
+            page10123.Children = new List<Page> { page101231 };
+            page101231.Children = new List<Page> { };
+            page102.Children = new List<Page> { page1021, page1022, page1023, page1024, page1025 };
+            page1021.Children = new List<Page> { };
+            page1022.Children = new List<Page> { };
+            page1023.Children = new List<Page> { };
+            page1024.Children = new List<Page> { };
+            page1025.Children = new List<Page> { };
+            page103.Children = new List<Page> { };
 
             user101.MainPage = page101;
             user102.MainPage = page102;

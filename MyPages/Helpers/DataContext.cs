@@ -36,7 +36,7 @@ namespace MyPages.Helpers
                     entity.HasKey(p => p.Id);
                     entity.Property(p => p.Name).IsRequired();
                     entity.HasOne(p => p.Parent)
-                        .WithMany(f => f.Childs)
+                        .WithMany(f => f.Children)
                         .HasForeignKey(p => p.ParentId);
                 });
         }

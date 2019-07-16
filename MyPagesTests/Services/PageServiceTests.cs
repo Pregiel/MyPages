@@ -125,7 +125,7 @@ namespace MyPagesTests.Services
 
             var result = await pageService.GetPagesFromPage(id);
 
-            Assert.Equal(folder.Childs, result);
+            Assert.Equal(folder.Children, result);
         }
 
         [Fact]

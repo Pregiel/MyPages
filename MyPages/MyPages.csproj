@@ -22,6 +22,8 @@
     <Compile Remove="Migrations\20190626133203_Initial.Designer.cs" />
     <Compile Remove="Migrations\20190710135612_RemovedFolderEntity.cs" />
     <Compile Remove="Migrations\20190710135612_RemovedFolderEntity.Designer.cs" />
+    <Compile Remove="Migrations\20190716180207_RenamedChildren.cs" />
+    <Compile Remove="Migrations\20190716180207_RenamedChildren.Designer.cs" />
   </ItemGroup>
 
 
