@@ -12,7 +12,7 @@ namespace MyPages.Controller
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    
+
     public class PageController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -55,6 +55,26 @@ namespace MyPages.Controller
                 page.OrdinalNumber = pageNo;
                 await _pageService.Update(page);
             }
+
+            return Ok();
+        }
+
+        // DELETE: api/Page/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAsync(int id)
+        {
+            var user = await _userService.GetByUsername(User.Identity.Name);
+            if (user == null)
+                return Unauthorized();
+
+            var page = await _pageService.GetByIdWithAllParents(id);
+            if (page == null)
+                return NotFound();
+
+            if (!_pageService.CheckAccess(page, user))
+                return Unauthorized();
+
+            await _pageService.Delete(id);
 
             return Ok();
         }

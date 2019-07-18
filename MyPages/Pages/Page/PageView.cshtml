@@ -65,11 +65,15 @@ else
                 });
 
                 $('#deleteConfirmButton').on('click', () => {
-                    var url = '/Page/Delete/' + itemId;
+                    var url = '/api/Page/' + itemId;
                     $.ajax({
-                        type: 'get',
+                        type: 'delete',
                         url: url,
-                        contentType: 'application/json'
+                        contentType: 'application/json',
+                        headers: {
+                            RequestVerificationToken:
+                                $('input:hidden[name="__RequestVerificationToken"]').val()
+                        }
                     }).done(function (e) {
                         window.location.reload();
                     });
@@ -85,16 +89,16 @@ else
                         var positions = order.join(';');
                         console.log(positions);
 
-                        var url = '/api/Page/' + 2;
+                        var url = '/api/Page/' + @RouteData.Values["id"];
                         $.ajax({
                             type: 'post',
                             url: url,
                             data: JSON.stringify(positions),
+                            contentType: 'application/json',
                             headers: {
                                 RequestVerificationToken:
                                     $('input:hidden[name="__RequestVerificationToken"]').val()
                             },
-                            contentType: 'application/json'
                         }).done(() => {
                             console.log('success');
                         }).fail(() => {
