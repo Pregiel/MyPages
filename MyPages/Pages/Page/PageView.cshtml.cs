@@ -53,15 +53,13 @@ namespace MyPages.Pages.Page
                 return NotFound();
 
             if (!_pageService.CheckAccess(mainPage, user))
-            {
-                mainPage = null;
                 return Unauthorized();
-            }
 
             var pages = await _pageService.GetPagesFromPage(PageEntity.Id);
-            Pages.AddRange(pages);
+            Pages.AddRange(pages.OrderBy(x => x.OrdinalNumber));
 
             return Page();
         }
+
     }
 }

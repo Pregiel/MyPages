@@ -16,6 +16,8 @@ namespace MyPages.Services
         Task<IEnumerable<Page>> GetPagesFromPage(int pageId);
         Task<Page> GetById(int id);
         Task<Page> GetByIdWithAllParents(int id);
+        Task<Page> GetByIdWithAllChildren(int id);
+        Task<Page> GetByIdWithAll(int id);
         Task Delete(int id);
         Task Update(Page pageParam);
     }
@@ -50,8 +52,11 @@ namespace MyPages.Services
             if (_context.Pages.SingleOrDefault(x => x.Id == page.Parent.Id) == null)
                 throw new ApplicationException(Properties.resultMessages.FolderNull);
 
+            await _context.Entry(page.Parent).Collection(x => x.Children).LoadAsync();
+
             page.ParentId = page.Parent.Id;
             page.DataCreated = DateTime.Now;
+            page.OrdinalNumber = page.Parent.Children.Count;
 
             await _context.Pages.AddAsync(page);
             await _context.SaveChangesAsync();
@@ -119,6 +124,26 @@ namespace MyPages.Services
             await ReferenceChildren(page);
             return page;
         }
+        public async Task<Page> GetByIdWithAll(int id)
+        {
+            var page = await _context
+                .Pages
+                .Include(x => x.Parent)
+                .Include(x => x.Children)
+                .SingleOrDefaultAsync(x => x.Id == id);
+
+            if (page == null)
+                return null;
+
+            var parent = page.Parent;
+            while (parent != null)
+            {
+                await _context.Entry(parent).Reference(x => x.Parent).LoadAsync();
+                parent = parent.Parent;
+            }
+            await ReferenceChildren(page);
+            return page;
+        }
 
         private void Remove(Page page)
         {
@@ -145,6 +170,7 @@ namespace MyPages.Services
             {
                 page.Name = pageParam.Name;
                 page.Content = pageParam.Content;
+                page.OrdinalNumber = pageParam.OrdinalNumber;
 
                 _context.Pages.Update(page);
                 await _context.SaveChangesAsync();

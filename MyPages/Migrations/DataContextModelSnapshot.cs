@@ -35,6 +35,8 @@ namespace MyPages.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
+                    b.Property<int>("OrdinalNumber");
+
                     b.Property<int?>("ParentId");
 
                     b.HasKey("Id");
@@ -72,7 +74,7 @@ namespace MyPages.Migrations
             modelBuilder.Entity("MyPages.Entities.Page", b =>
                 {
                     b.HasOne("MyPages.Entities.Page", "Parent")
-                        .WithMany("Childs")
+                        .WithMany("Children")
                         .HasForeignKey("ParentId");
                 });
 

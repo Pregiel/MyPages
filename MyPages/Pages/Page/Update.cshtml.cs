@@ -79,6 +79,7 @@ namespace MyPages.Pages.Page
 
                 var pageParam = _mapper.Map<Entities.Page>(PageModel);
                 pageParam.Id = id;
+                pageParam.OrdinalNumber = page.OrdinalNumber;
 
                 await _pageService.Update(pageParam);
             }

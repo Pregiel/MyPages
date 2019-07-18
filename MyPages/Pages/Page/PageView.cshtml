@@ -18,15 +18,15 @@ else
 {
     <partial name="_Path" model="@Model.PageEntity" />
     <hr />
-    <div class="row">
+    <div class="row sortable">
         @foreach (var item in Model.Pages)
         {
-            <div class="col-lg-3 col-md-4 col-6 pl-md-2 pr-md-2 pl-1 pr-1 mt-2 mb-2 item">
+            <div class="col-lg-3 col-md-4 col-6 pl-md-2 pr-md-2 pl-1 pr-1 mt-2 mb-2 item" id="@item.Id">
                 <button class="btn btn-primary btn-delete text-white" data-toggle="modal" data-target="#deleteConfirm" data-item-name="@item.Name" data-item-id="@item.Id">&times;</button>
-                <a class="btn btn-pages-list btn-primary" asp-page="/Page/PageView" asp-route-id="@item.Id">@item.Name</a>
+                <a class="btn btn-pages-list btn-primary " asp-page="/Page/PageView" asp-route-id="@item.Id">@item.OrdinalNumber.  @item.Name</a>
             </div>
         }
-        <div class="col-lg-3 col-md-4 col-6 pl-md-2 pr-md-2 pl-1 pr-1 mt-2 mb-2">
+        <div class="col-lg-3 col-md-4 col-6 pl-md-2 pr-md-2 pl-1 pr-1 mt-2 mb-2 sortable-lastitem">
             <a class="btn btn-pages-list btn-outline-dark" asp-page="/Page/Create" asp-route-id="@Model.PageEntity.Id">Create</a>
         </div>
     </div>
@@ -74,6 +74,35 @@ else
                         window.location.reload();
                     });
                 });
+
+                $('.sortable').sortable({
+                    items: ".item",
+                    update: () => {
+                        var order = [];
+                        $('.sortable .item').each(function (index) {
+                            order.push(index + '=' + $(this).attr("id"));
+                        });
+                        var positions = order.join(';');
+                        console.log(positions);
+
+                        var url = '/api/Page/' + 2;
+                        $.ajax({
+                            type: 'post',
+                            url: url,
+                            data: JSON.stringify(positions),
+                            headers: {
+                                RequestVerificationToken:
+                                    $('input:hidden[name="__RequestVerificationToken"]').val()
+                            },
+                            contentType: 'application/json'
+                        }).done(() => {
+                            console.log('success');
+                        }).fail(() => {
+                            console.log('fail');
+                        });
+                    }
+                }).disableSelection();
+
             });
         </script>
     }
