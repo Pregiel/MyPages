@@ -5,7 +5,12 @@ VisualStudioVersion = 16.0.29009.5
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyPages", "MyPages\MyPages.csproj", "{AC7AAA56-259E-42FE-931B-15B6F6531F2B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyPagesTests", "MyPagesTests\MyPagesTests.csproj", "{F3427728-90BE-4586-8156-822D44125B7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyPagesTests", "MyPagesTests\MyPagesTests.csproj", "{F3427728-90BE-4586-8156-822D44125B7B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0D52BECB-012F-4696-9841-CFE23ED8E17D}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

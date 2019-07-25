@@ -23,7 +23,7 @@ else
         {
             <div class="col-lg-3 col-md-4 col-6 pl-md-2 pr-md-2 pl-1 pr-1 mt-2 mb-2 item" id="@item.Id">
                 <button class="btn btn-primary btn-delete text-white" data-toggle="modal" data-target="#deleteConfirm" data-item-name="@item.Name" data-item-id="@item.Id">&times;</button>
-                <a class="btn btn-pages-list btn-primary " asp-page="/Page/PageView" asp-route-id="@item.Id">@item.OrdinalNumber.  @item.Name</a>
+                <a class="btn btn-pages-list btn-primary " asp-page="/Page/PageView" asp-route-id="@item.Id"> @item.Name</a>
             </div>
         }
         <div class="col-lg-3 col-md-4 col-6 pl-md-2 pr-md-2 pl-1 pr-1 mt-2 mb-2 sortable-lastitem">
@@ -78,9 +78,8 @@ else
                         window.location.reload();
                     });
                 });
-
                 $('.sortable').sortable({
-                    items: ".item",
+                items: ".item",
                     update: () => {
                         var order = [];
                         $('.sortable .item').each(function (index) {
@@ -89,14 +88,14 @@ else
                         var positions = order.join(';');
                         console.log(positions);
 
-                        var url = '/api/Page/' + @RouteData.Values["id"];
+                        var url = '/api/Page/' + @Model.PageEntity.Id;
                         $.ajax({
-                            type: 'post',
+                        type: 'post',
                             url: url,
                             data: JSON.stringify(positions),
                             contentType: 'application/json',
                             headers: {
-                                RequestVerificationToken:
+                            RequestVerificationToken:
                                     $('input:hidden[name="__RequestVerificationToken"]').val()
                             },
                         }).done(() => {
