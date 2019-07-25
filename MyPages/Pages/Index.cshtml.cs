@@ -9,9 +9,11 @@ namespace MyPages.Pages
 {
     public class IndexModel : PageModel
     {
-        public void OnGet()
+        public IActionResult OnGet()
         {
-
+            if (User.Identity.IsAuthenticated)
+                return LocalRedirect("/Page");
+            return Page();
         }
     }
 }
