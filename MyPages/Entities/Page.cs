@@ -37,5 +37,7 @@ namespace MyPages.Entities
             }
         }
         public virtual ICollection<Page> Children { get; set; }
+
+        public bool PublicAccess { get; set; }
     }
 }

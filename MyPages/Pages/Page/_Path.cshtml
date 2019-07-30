@@ -1,30 +1,25 @@
 ﻿@model Entities.Page
 
-<div class="nav row ml-1 mr-1">
-    <ul class="nav path col-sm-11 col-12">
-        @{
-            var page = Model;
-            var id = page.Id;
-            var pagesPathElements = page.Parent;
+<ul class="nav path col-sm-11 col-12">
+    @{
+        var page = Model;
+        var id = page.Id;
+        var pagesPathElements = page.Parent;
 
-            var pagesPath = new List<Entities.Page>();
-            pagesPath.Add(Model);
-            while (pagesPathElements != null)
-            {
-                pagesPath.Add(pagesPathElements);
-                pagesPathElements = pagesPathElements.Parent;
-            }
-            pagesPath.Reverse();
-
-            foreach (var fol in pagesPath)
-            {
-                <li class="nav-item">
-                    <a class="nav-link" asp-page="/Page/PageView" asp-route-id="@fol.Id">@fol.Name</a>
-                </li>
-            }
+        var pagesPath = new List<Entities.Page>();
+        pagesPath.Add(Model);
+        while (pagesPathElements != null)
+        {
+            pagesPath.Add(pagesPathElements);
+            pagesPathElements = pagesPathElements.Parent;
         }
-    </ul>
-    <div class="ml-auto">
-        <a class="btn" asp-page="/Page/Update" asp-route-id="@id"><span class="fa fa-edit"></span></a>
-    </div>
-</div>
+        pagesPath.Reverse();
+
+        foreach (var fol in pagesPath)
+        {
+            <li class="nav-item">
+                <a class="nav-link" asp-page="/Page/PageView" asp-route-id="@fol.Id">@fol.Name</a>
+            </li>
+        }
+    }
+</ul>

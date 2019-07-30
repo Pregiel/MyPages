@@ -54,6 +54,7 @@ namespace MyPages
                 {
                     options.Conventions.AuthorizePage("/Privacy");
                     options.Conventions.AuthorizeFolder("/Page");
+                    options.Conventions.AllowAnonymousToPage("/Page/PageView");
                     options.Conventions.AddPageRoute("/Page/PageView", "/Page/{id:int?}");
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

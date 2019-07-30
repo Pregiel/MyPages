@@ -28,7 +28,7 @@ else
                     <textarea asp-for="PageModel.Content" class="form-control" rows="15"></textarea>
                     <span asp-validation-for="PageModel.Content" class="text-danger"></span>
                 </div>
-                <div class="card mb-4">
+                <div class="card mb-2">
                     <div class="card-header" id="heading">
                         <h5 class="mb-0">
                             <button type="button" class="btn w-100 text-left" data-toggle="collapse" data-target="#collapseOne">
@@ -41,6 +41,11 @@ else
                             <div id="content-preview"></div>
                         </div>
                     </div>
+                </div>
+
+                <div class="form-check  mb-2 ml-1 ">
+                    <input asp-for="PageModel.PublicAccess" type="checkbox" class="form-check-input" id="publicAccess">
+                    <label asp-for="PageModel.PublicAccess" class="form-check-label" for="publicAccess">Public</label>
                 </div>
 
                 <div class="form-group">

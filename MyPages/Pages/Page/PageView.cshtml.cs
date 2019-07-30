@@ -27,19 +27,20 @@ namespace MyPages.Pages.Page
 
         public List<Entities.Page> Pages = new List<Entities.Page>();
         public Entities.Page PageEntity;
+        public UserTypeEnum UserType;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             var user = await _userService.GetByUsername(User.Identity.Name);
-            if (user == null)
-                return Unauthorized();
 
             if (id.HasValue)
             {
-                PageEntity = await _pageService.GetById(id.Value);
+                PageEntity = await _pageService.GetByIdWithAllParents(id.Value);
             }
             else
             {
+                if (user == null)
+                    return RedirectToPage("/Account/Login");
                 id = user.MainPageId;
                 PageEntity = user.MainPage;
             }
@@ -47,12 +48,9 @@ namespace MyPages.Pages.Page
             if (PageEntity == null)
                 return NotFound();
 
+            UserType = getUserType(user, PageEntity);
 
-            var mainPage = await _pageService.GetByIdWithAllParents(id.Value);
-            if (mainPage == null)
-                return NotFound();
-
-            if (!_pageService.CheckAccess(mainPage, user))
+            if (!PageEntity.PublicAccess && !UserType.Equals(UserTypeEnum.Owner))
                 return Unauthorized();
 
             var pages = await _pageService.GetPagesFromPage(PageEntity.Id);
@@ -61,5 +59,17 @@ namespace MyPages.Pages.Page
             return Page();
         }
 
+        public enum UserTypeEnum { Owner, Registered, Stranger };
+
+        private UserTypeEnum getUserType(User user, Entities.Page page)
+        {
+            if (user == null)
+                return UserTypeEnum.Stranger;
+
+            if (_pageService.CheckAccess(page, user))
+                return UserTypeEnum.Owner;
+            else
+                return UserTypeEnum.Registered;
+        }
     }
 }

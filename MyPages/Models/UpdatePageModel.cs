@@ -16,5 +16,7 @@ namespace MyPages.Models
 
         [DataType(DataType.MultilineText)]
         public string Content { get; set; }
+
+        public bool PublicAccess { get; set; }
     }
 }
