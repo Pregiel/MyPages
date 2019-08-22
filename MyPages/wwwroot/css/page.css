@@ -1,0 +1,10 @@
+﻿.color-button {
+    padding: 1rem !important;
+    margin: 0.2rem 0.2rem;
+    cursor: pointer
+}
+
+.color-button.active {
+    border: 0.05rem solid #FFF;
+    box-shadow: 0 0 0 0.2rem rgba(50, 115, 220, 0.41);
+}

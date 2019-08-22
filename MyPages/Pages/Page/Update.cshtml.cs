@@ -31,6 +31,8 @@ namespace MyPages.Pages.Page
         [BindProperty]
         public UpdatePageModel PageModel { get; set; }
 
+        public string[] Colors = Helpers.Colors.ColorValues;
+
         public async Task<IActionResult> OnGetAsync(int id)
         {
             var user = await _userService.GetByUsername(User.Identity.Name);

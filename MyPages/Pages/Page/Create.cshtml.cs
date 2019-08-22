@@ -47,6 +47,8 @@ namespace MyPages.Pages.Page
         [BindProperty]
         public CreateNewPageModel PageModel { get; set; }
 
+        public string[] Colors = Helpers.Colors.ColorValues;
+
         public async Task<IActionResult> OnPostAsync(int? id)
         {
             if (!User.Identity.IsAuthenticated)

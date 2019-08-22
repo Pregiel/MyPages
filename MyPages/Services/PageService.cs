@@ -172,6 +172,7 @@ namespace MyPages.Services
                 page.Content = pageParam.Content;
                 page.OrdinalNumber = pageParam.OrdinalNumber;
                 page.PublicAccess = pageParam.PublicAccess;
+                page.Color = pageParam.Color;
 
                 _context.Pages.Update(page);
                 await _context.SaveChangesAsync();

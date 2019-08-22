@@ -6,7 +6,9 @@
     height: 160px;
     font-size: 1.6rem;
     word-break: break-word;
+    color:#FFF;
 }
+
 
 .btn-delete {
     position: absolute;
