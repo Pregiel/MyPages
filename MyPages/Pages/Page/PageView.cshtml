@@ -20,55 +20,61 @@ else
         <partial name="_Path" model="@Model.PageEntity" />
 
         @if (Model.UserType.Equals(PageViewModel.UserTypeEnum.Owner))
-            {
+        {
             <div class="ml-auto">
                 <a class="btn" asp-page="/Page/Update" asp-route-id="@Model.PageEntity.Id" title="Edit"><span class="fa fa-edit"></span></a>
             </div>
             <div class="">
                 <a class="btn" asp-page="/Page/Create" asp-route-id="@Model.PageEntity.Id" title="Add page"><span class="fa fa-plus"></span></a>
             </div>
+        }
+    </div>
+    @if (Model.Pages.Count > 0)
+    {
+        <hr />
+        <div class="row sortable">
+            @foreach (var item in Model.Pages)
+            {
+                <div class="col-lg-3 col-md-4 col-6 pl-md-2 pr-md-2 pl-1 pr-1 mt-2 mb-2 item" id="@item.Id">
+                    <button class="btn text-white btn-delete" data-toggle="modal" data-target="#deleteConfirm" data-item-name="@item.Name" data-item-id="@item.Id">&times;</button>
+                    <a class="btn btn-pages-list" asp-page="/Page/PageView" asp-route-id="@item.Id" style="background-color:@item.Color"> @item.Name</a>
+                </div>
             }
-        </div>
-        @if (Model.Pages.Count > 0)
-        {
-            <hr />
-            <div class="row sortable">
-                @foreach (var item in Model.Pages)
-                {
-                    <div class="col-lg-3 col-md-4 col-6 pl-md-2 pr-md-2 pl-1 pr-1 mt-2 mb-2 item" id="@item.Id">
-                        <button class="btn text-white btn-delete" data-toggle="modal" data-target="#deleteConfirm" data-item-name="@item.Name" data-item-id="@item.Id">&times;</button>
-                        <a class="btn btn-pages-list" asp-page="/Page/PageView" asp-route-id="@item.Id" style="background-color:@item.Color"> @item.Name</a>
-                    </div>
-                }
+
+            <div class="dropdown-menu context-menu" id="context-menu">
+                <a class="dropdown-item" href="#" id="context-menu-open">Open</a>
+                <a class="dropdown-item" href="#" id="context-menu-edit">Edit</a>
+                <a class="dropdown-item" href="#" id="context-menu-delete">Delete</a>
             </div>
-        }
-        @if (Model.PageEntity.Content != null)
-        {
-            <hr />
-            <partial name="_Content" model="@Model.PageEntity" />
-            <hr />
-        }
-        <div id="deleteConfirm" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Are you sure?</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Do you really want to delete this element? This process cannot be undone.</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
-                        <button class="btn btn-danger" id="deleteConfirmButton">Delete</button>
-                    </div>
+        </div>
+    }
+    @if (Model.PageEntity.Content != null)
+    {
+        <hr />
+        <partial name="_Content" model="@Model.PageEntity" />
+        <hr />
+    }
+    <div id="deleteConfirm" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Are you sure?</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Do you really want to delete this element? This process cannot be undone.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-danger" id="deleteConfirmButton">Delete</button>
                 </div>
             </div>
         </div>
+    </div>
 
 
-        @section Scripts {
-            <script type="text/javascript">
+    @section Scripts {
+        <script type="text/javascript">
             $(() => {
                 var itemId;
                 $('#deleteConfirm').on('show.bs.modal', (e) => {
@@ -118,7 +124,30 @@ else
                     }
                 }).disableSelection();
 
+                $('.item').on('contextmenu', function (e) {
+                    var top = e.pageY;
+                    var left = e.pageX;
+                    $("#context-menu").css({
+                        display: "block",
+                        top: top,
+                        left: left
+                    }).addClass("show");
+                    var id = $(this).attr('id');
+                    $("#context-menu-open").attr("href", "/Page/" + id);
+                    $("#context-menu-edit").attr("href", "/Page/Update/" + id);
+                    $("#context-menu-delete").on("click", function () {
+                        console.log(id);
+                        $("#" + id).find(".btn-delete").trigger("click");
+                    })
+                    return false;
+                }).on("click", function () {
+                    $("#context-menu").removeClass("show").hide();
+                });
+
+                $("body").on("click", function () {
+                    $("#context-menu").removeClass("show").hide();
+                })
             });
-            </script>
-        }
+        </script>
     }
+}
