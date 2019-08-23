@@ -79,6 +79,9 @@ namespace MyPages.Pages.Page
                 if (!_pageService.CheckAccess(page, user))
                     return Unauthorized();
 
+                if (string.IsNullOrWhiteSpace(PageModel.Color))
+                    PageModel.Color = Colors[0];
+
                 var pageParam = _mapper.Map<Entities.Page>(PageModel);
                 pageParam.Id = id;
                 pageParam.OrdinalNumber = page.OrdinalNumber;

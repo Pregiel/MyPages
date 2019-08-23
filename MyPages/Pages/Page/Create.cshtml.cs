@@ -73,6 +73,9 @@ namespace MyPages.Pages.Page
 
             try
             {
+                if (string.IsNullOrWhiteSpace(PageModel.Color))
+                    PageModel.Color = Colors[0];
+
                 var page = _mapper.Map<Entities.Page>(PageModel);
                 page.Parent = CurrentPage;
 
