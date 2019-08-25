@@ -58,7 +58,7 @@ namespace MyPages.Pages.Page
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(string type, int id)
+        public async Task<IActionResult> OnPostAsync(int id, string redirect = null)
         {
             if (!User.Identity.IsAuthenticated)
                 return Unauthorized();
@@ -92,8 +92,10 @@ namespace MyPages.Pages.Page
             {
                 return BadRequest();
             }
-
-            return RedirectToPage("/Page/PageView", new { id });
+            if (string.IsNullOrWhiteSpace(redirect))
+                return RedirectToPage("/Page/PageView", new { id });
+            else
+                return Redirect(redirect);
         }
     }
 }

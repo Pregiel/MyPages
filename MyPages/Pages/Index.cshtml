@@ -4,23 +4,14 @@
     ViewData["Title"] = "Home page";
 }
 
-@*<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p><a asp-page="/Account/Login">Log in</a> or <a asp-page="/Account/Register">create new account</a> to continue.</p>
-</div>*@
-
 <div class="row py-4">
-    <div class="col-5 text-center my-auto">
+    <div class="col-md-5 text-center my-auto">
         <h1 class="mb-3">All Notes in <br />One Place.</h1>
         <p class="mb-5">Browse and create notes anywhere you want!</p>
         <a asp-page="/Account/Register" class="btn btn-primary py-2 px-5">SIGN IN</a>
     </div>
-    <div class="col-7">
+    <div class="col-md-7 mt-5">
         <div id="previewCarousel" class="carousel slide" data-ride="carousel">
-            <ol class="carousel-indicators">
-                <li data-target="previewCarousel" data-slide-to="0" class="active"></li>
-                <li data-target="previewCarousel" data-slide-to="1"></li>
-            </ol>
             <div class="carousel-inner">
                 <div class="carousel-item active">
                     <img class="d-block w-100" src="~/images/pages.png" alt="Pages screenshot" />

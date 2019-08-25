@@ -6,7 +6,7 @@
 
 
 @section Styles {
-    <link rel="stylesheet" href="~/css/folder.css" />
+    <link rel="stylesheet" href="~/css/folder.css?v=1.2" />
 }
 
 @if (Model.PageEntity == null)
@@ -104,7 +104,6 @@ else
                             order.push(index + '=' + $(this).attr("id"));
                         });
                         var positions = order.join(';');
-                        console.log(positions);
 
                         var url = '/api/Page/' + @Model.PageEntity.Id;
                         $.ajax({
@@ -134,7 +133,7 @@ else
                     }).addClass("show");
                     var id = $(this).attr('id');
                     $("#context-menu-open").attr("href", "/Page/" + id);
-                    $("#context-menu-edit").attr("href", "/Page/Update/" + id);
+                    $("#context-menu-edit").attr("href", "/Page/Update/" + id + "?redirect=" + window.location.href );
                     $("#context-menu-delete").on("click", function () {
                         console.log(id);
                         $("#" + id).find(".btn-delete").trigger("click");
