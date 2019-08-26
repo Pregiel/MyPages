@@ -173,7 +173,7 @@ else
                 $("label.color-button > input:radio[name='item-color']").parent().on("click", function() {
                     var url = '/api/Page/' + itemId + '/color';
                     var color = RGBToHex($(this).css("background-color")).toUpperCase();
-                    console.log(color);
+                     $(".item[id='" + itemId + "'] > a.btn-pages-list").css("background-color", color);
                     $.ajax({
                         type: 'post',
                         url: url,
@@ -183,8 +183,6 @@ else
                             RequestVerificationToken:
                                 $('input:hidden[name="__RequestVerificationToken"]').val()
                         },
-                    }).done(function () {
-                        $(".item[id='" + itemId + "'] > a.btn-pages-list").css("background-color", color);
                     });
 
                 })
