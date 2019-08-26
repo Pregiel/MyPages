@@ -19,7 +19,6 @@ namespace MyPages.Models
 
         public bool PublicAccess { get; set; }
 
-        [StringLength(7)]
         public string Color { get; set; }
     }
 }

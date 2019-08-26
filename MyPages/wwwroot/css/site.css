@@ -102,3 +102,10 @@ body {
 .carousel-control-next-icon {
     filter: invert(100%);
 }
+
+.br-py-1 {
+    display: block;
+    padding-top: 0.25rem !important;
+    padding-bottom: 0.25rem !important;
+    content: "";
+}

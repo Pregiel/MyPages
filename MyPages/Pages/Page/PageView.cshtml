@@ -43,7 +43,20 @@ else
 
             <div class="dropdown-menu context-menu" id="context-menu">
                 <a class="dropdown-item" href="#" id="context-menu-open">Open</a>
+                <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#" id="context-menu-edit">Edit</a>
+                <h6 class="dropdown-header">Change color</h6>
+                <div class="dropdown-item-text btn-group-toggle mb-2" data-toggle="buttons" id="context-menu-colors">
+                    @{
+                        foreach (var color in Model.Colors)
+                        {
+                            <label class="btn color-button" style="background-color: @color">
+                                <input type="radio" value="@color" name="item-color">
+                            </label>
+                        }
+                    }
+                </div>
+                <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#" id="context-menu-delete">Delete</a>
             </div>
         </div>
@@ -75,6 +88,7 @@ else
 
     @section Scripts {
         <script type="text/javascript">
+
             $(() => {
                 var itemId;
                 $('#deleteConfirm').on('show.bs.modal', (e) => {
@@ -96,8 +110,9 @@ else
                         window.location.reload();
                     });
                 });
+
                 $('.sortable').sortable({
-                items: ".item",
+                    items: ".item",
                     update: () => {
                         var order = [];
                         $('.sortable .item').each(function (index) {
@@ -105,20 +120,16 @@ else
                         });
                         var positions = order.join(';');
 
-                        var url = '/api/Page/' + @Model.PageEntity.Id;
+                        var url = '/api/Page/' + @Model.PageEntity.Id + '/relocate';
                         $.ajax({
-                        type: 'post',
+                            type: 'post',
                             url: url,
                             data: JSON.stringify(positions),
                             contentType: 'application/json',
                             headers: {
-                            RequestVerificationToken:
+                                RequestVerificationToken:
                                     $('input:hidden[name="__RequestVerificationToken"]').val()
                             },
-                        }).done(() => {
-                            console.log('success');
-                        }).fail(() => {
-                            console.log('fail');
                         });
                     }
                 }).disableSelection();
@@ -131,22 +142,82 @@ else
                         top: top,
                         left: left
                     }).addClass("show");
-                    var id = $(this).attr('id');
-                    $("#context-menu-open").attr("href", "/Page/" + id);
-                    $("#context-menu-edit").attr("href", "/Page/Update/" + id + "?redirect=" + window.location.href );
+                    itemId = $(this).attr('id');
+                    $("#context-menu-open").attr("href", "/Page/" + itemId);
+                    $("#context-menu-edit").attr("href", "/Page/Update/" + itemId + "?redirect=" + window.location.href);
                     $("#context-menu-delete").on("click", function () {
-                        console.log(id);
-                        $("#" + id).find(".btn-delete").trigger("click");
+                        $("#" + itemId).find(".btn-delete").trigger("click");
                     })
+
+                    var color = RGBToHex($(this).find("a.btn-pages-list").css("background-color")).toUpperCase();
+                    setContextMenuColor(color);
+
+                    var url = '/api/Page/' + itemId + '/color';
+                    $.ajax({
+                        type: 'get',
+                        url: url,
+                        contentType: 'application/json',
+                        headers: {
+                            RequestVerificationToken:
+                                $('input:hidden[name="__RequestVerificationToken"]').val()
+                        }
+                    }).done(function (e) {
+                        if (e != color)
+                            setContextMenuColor(e);
+                    });
                     return false;
                 }).on("click", function () {
                     $("#context-menu").removeClass("show").hide();
                 });
 
+                $("label.color-button > input:radio[name='item-color']").parent().on("click", function() {
+                    var url = '/api/Page/' + itemId + '/color';
+                    var color = RGBToHex($(this).css("background-color")).toUpperCase();
+                    console.log(color);
+                    $.ajax({
+                        type: 'post',
+                        url: url,
+                        data: JSON.stringify(color),
+                        contentType: 'application/json',
+                        headers: {
+                            RequestVerificationToken:
+                                $('input:hidden[name="__RequestVerificationToken"]').val()
+                        },
+                    }).done(function () {
+                        $(".item[id='" + itemId + "'] > a.btn-pages-list").css("background-color", color);
+                    });
+
+                })
+
                 $("body").on("click", function () {
                     $("#context-menu").removeClass("show").hide();
                 })
+
+
             });
+
+            function RGBToHex(rgb) {
+              let sep = rgb.indexOf(",") > -1 ? "," : " ";
+              rgb = rgb.substr(4).split(")")[0].split(sep);
+
+              let r = (+rgb[0]).toString(16),
+                  g = (+rgb[1]).toString(16),
+                  b = (+rgb[2]).toString(16);
+
+              if (r.length == 1)
+                r = "0" + r;
+              if (g.length == 1)
+                g = "0" + g;
+              if (b.length == 1)
+                b = "0" + b;
+
+              return "#" + r + g + b;
+            }
+
+            function setContextMenuColor(color) {
+                $("label.color-button > input:radio[name='item-color']").parent().removeClass('active');
+                $("label.color-button > input:radio[value='" + color.toUpperCase() + "']").parent().addClass('active');
+            }
         </script>
     }
 }

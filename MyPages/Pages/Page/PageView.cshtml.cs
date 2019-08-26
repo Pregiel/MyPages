@@ -28,6 +28,7 @@ namespace MyPages.Pages.Page
         public List<Entities.Page> Pages = new List<Entities.Page>();
         public Entities.Page PageEntity;
         public UserTypeEnum UserType;
+        public string[] Colors = Helpers.Colors.ColorValues;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {

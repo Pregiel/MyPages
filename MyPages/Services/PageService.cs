@@ -52,7 +52,8 @@ namespace MyPages.Services
             if (_context.Pages.SingleOrDefault(x => x.Id == page.Parent.Id) == null)
                 throw new ApplicationException(Properties.resultMessages.FolderNull);
 
-            await _context.Entry(page.Parent).Collection(x => x.Children).LoadAsync();
+            if (page.Parent.Children == null)
+                await _context.Entry(page.Parent).Collection(x => x.Children).LoadAsync();
 
             page.ParentId = page.Parent.Id;
             page.DataCreated = DateTime.Now;
@@ -104,7 +105,8 @@ namespace MyPages.Services
 
         private async Task ReferenceChildren(Page page)
         {
-            await _context.Entry(page).Collection(x => x.Children).LoadAsync();
+            if (page.Children == null)
+                await _context.Entry(page).Collection(x => x.Children).LoadAsync();
             foreach (Page child in page.Children)
             {
                 await ReferenceChildren(child);

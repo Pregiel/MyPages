@@ -25,9 +25,9 @@ namespace MyPages.Controller
             _pageService = pageService;
         }
 
-        // POST: api/Page/5
-        [HttpPost("{id}")]
-        public async Task<IActionResult> PostAsync(int id, [FromBody] string value)
+        // POST: api/Page/5/Relocate
+        [HttpPost("{id}/relocate")]
+        public async Task<IActionResult> ChangePosition(int id, [FromBody] string value)
         {
             var user = await _userService.GetByUsername(User.Identity.Name);
             if (user == null)
@@ -75,6 +75,51 @@ namespace MyPages.Controller
                 return Unauthorized();
 
             await _pageService.Delete(id);
+
+            return Ok();
+        }
+
+
+
+        // GET: api/Page/5/color
+        [HttpGet("{id}/color")]
+        public async Task<IActionResult> GetColor(int id)
+        {
+            var user = await _userService.GetByUsername(User.Identity.Name);
+            if (user == null)
+                return Unauthorized();
+
+            var mainPage = await _pageService.GetByIdWithAll(id);
+            if (mainPage == null)
+                return NotFound();
+
+            if (!_pageService.CheckAccess(mainPage, user))
+                return Unauthorized();
+
+            var page = await _pageService.GetById(id);
+            return Ok(page.Color);
+        }
+
+
+
+        // POST: api/Page/5/color
+        [HttpPost("{id}/color")]
+        public async Task<IActionResult> SetColor(int id, [FromBody] string color)
+        {
+            var user = await _userService.GetByUsername(User.Identity.Name);
+            if (user == null)
+                return Unauthorized();
+
+            var mainPage = await _pageService.GetByIdWithAll(id);
+            if (mainPage == null)
+                return NotFound();
+
+            if (!_pageService.CheckAccess(mainPage, user))
+                return Unauthorized();
+
+            var page = await _pageService.GetById(id);
+            page.Color = color;
+            await _pageService.Update(page);
 
             return Ok();
         }
