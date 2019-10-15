@@ -1,25 +1,46 @@
 ﻿@model Entities.Page
+<nav class="px-0 col-sm-10 col-12">
+    <ol class="breadcrumb my-breadcrumb">
+        @{
+            var page = Model;
+            var id = page.Id;
+            var pagesPathElements = page.Parent;
 
-<ul class="nav path col-sm-11 col-12">
-    @{
-        var page = Model;
-        var id = page.Id;
-        var pagesPathElements = page.Parent;
-
-        var pagesPath = new List<Entities.Page>();
-        pagesPath.Add(Model);
-        while (pagesPathElements != null)
-        {
-            pagesPath.Add(pagesPathElements);
-            pagesPathElements = pagesPathElements.Parent;
+            var pagesPath = new List<Entities.Page>();
+            pagesPath.Add(Model);
+            while (pagesPathElements != null)
+            {
+                pagesPath.Add(pagesPathElements);
+                pagesPathElements = pagesPathElements.Parent;
+            }
+            pagesPath.Reverse();
+            var i = 1;
+            foreach (var fol in pagesPath)
+            {
+                if (fol.Children == null)
+                {
+                    <li class="breadcrumb-item active">
+                        <a class="">@fol.Name</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="breadcrumb-item dropdown">
+                        <a class="" asp-page="/Page/PageView" asp-route-id="@fol.Id">@fol.Name</a>
+                        <div class="dropdown-menu breadcrumb-dropdown-menu">
+                            <h6 class="dropdown-header">@fol.Name subfolders</h6>
+                            @if (fol.Children.Count > 0)
+                            {
+                                foreach (var subfol in fol.Children)
+                                {
+                                    <a class="dropdown-item" asp-page="/Page/PageView" asp-route-id="@subfol.Id" style="background-color: @(subfol.Color + "ac")">@subfol.Name</a>
+                                }
+                            }
+                        </div>
+                    </li>
+                }
+                i++;
+            }
         }
-        pagesPath.Reverse();
-
-        foreach (var fol in pagesPath)
-        {
-            <li class="nav-item">
-                <a class="nav-link" asp-page="/Page/PageView" asp-route-id="@fol.Id">@fol.Name</a>
-            </li>
-        }
-    }
-</ul>
+    </ol>
+</nav>

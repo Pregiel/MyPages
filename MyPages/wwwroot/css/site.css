@@ -75,24 +75,6 @@ body {
     -webkit-box-orient: vertical;
 }
 
-.path .nav-item {
-    display: inline-flex;
-    padding: 0.25rem 0rem;
-}
-
-.path li:after {
-    content: "/";
-}
-
-.path li:last-child:after {
-    content: "";
-}
-
-
-.path li a {
-    padding: 0rem 0.5rem;
-}
-
 .navbar {
     background-color: #3fa9f5;
     margin: 1rem;

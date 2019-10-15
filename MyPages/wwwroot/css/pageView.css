@@ -25,3 +25,20 @@
 .btn-delete:not(:hover) {
     background: none !important;
 }
+
+.my-breadcrumb > .breadcrumb-item:hover > .dropdown-menu {
+    display: block;
+}
+
+.my-breadcrumb {
+    background-color: transparent;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    content: ">";
+}
+
+.breadcrumb-dropdown-menu > .dropdown-item {
+    color: #111;
+    margin-bottom: 3px;
+}

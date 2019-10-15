@@ -98,6 +98,7 @@ namespace MyPages.Services
             while (parent != null)
             {
                 await _context.Entry(parent).Reference(x => x.Parent).LoadAsync();
+                await _context.Entry(parent).Collection(x => x.Children).LoadAsync();
                 parent = parent.Parent;
             }
             return page;
