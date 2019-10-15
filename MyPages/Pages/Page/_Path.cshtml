@@ -33,7 +33,7 @@
                             {
                                 foreach (var subfol in fol.Children)
                                 {
-                                    <a class="dropdown-item" asp-page="/Page/PageView" asp-route-id="@subfol.Id" style="background-color: @(subfol.Color + "ac")">@subfol.Name</a>
+                                    <a class="dropdown-item @((subfol.Id == page.Id)? "active" : "")" asp-page="/Page/PageView" asp-route-id="@subfol.Id" style="background-color: @(subfol.Color + "ac")">@subfol.Name</a>
                                 }
                             }
                         </div>

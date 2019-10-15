@@ -9,7 +9,6 @@
     color:#FFF;
 }
 
-
 .btn-delete {
     position: absolute;
     right: 8px;
@@ -39,6 +38,9 @@
 }
 
 .breadcrumb-dropdown-menu > .dropdown-item {
-    color: #111;
+    color: #333;
     margin-bottom: 3px;
+}
+.breadcrumb-dropdown-menu > .dropdown-item.active {
+    font-weight: bold;
 }
